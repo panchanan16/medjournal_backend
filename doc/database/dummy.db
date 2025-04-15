@@ -1,0 +1,97 @@
+-- Article 
+
+Article_id
+isInHome
+isOpenaccess
+isInpress
+volume
+issue
+url
+type
+title
+DOI
+DOI_link
+PMID
+PMID_link
+abstract
+page_from
+page_to
+keywords
+how_to_cite
+recieve_date
+Revised_date
+Accepted_date
+published_date
+available_date
+Downloads
+Views
+pdflink
+xmllink
+generateXML
+generatePDF
+
+
+-- Article citation
+
+apa
+mla
+chicago
+harvard
+Vancouver
+
+
+
+-- Article Section
+asid
+Article_id
+section_heading
+section_content
+
+
+
+-- Article authors
+
+aa_id
+Article_id
+prefix
+firstname
+middlename
+lastname
+email
+orcid_id
+afflication
+qualification
+
+
+
+========== Volume & Issues ============
+
+-- volume
+
+volume_id
+volume_name
+volume_img
+volume_year
+
+-- Issues
+
+is_id
+volume_id
+issue_name
+
+
+-- editor board
+
+Editor type
+name
+qualification
+designation
+instution
+imgLink
+
+
+
+
+
+
+

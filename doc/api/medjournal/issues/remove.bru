@@ -1,0 +1,15 @@
+meta {
+  name: remove
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{urlHeadEntity}}/issue/remove?id=2
+  body: none
+  auth: inherit
+}
+
+params:query {
+  id: 2
+}

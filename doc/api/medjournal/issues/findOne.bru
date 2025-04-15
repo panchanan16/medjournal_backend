@@ -1,0 +1,15 @@
+meta {
+  name: findOne
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{urlHeadEntity}}/issue/readOne?volumeId=2
+  body: none
+  auth: inherit
+}
+
+params:query {
+  volumeId: 2
+}

@@ -1,0 +1,18 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{urlHeadEntity}}/adpolicy/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title" : "Ad policy",
+    "content" : "<p>This is ad policy of our organisation</p>"
+  }
+}

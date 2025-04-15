@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "medjournal",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
