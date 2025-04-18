@@ -1,0 +1,15 @@
+meta {
+  name: remove
+  type: http
+  seq: 2
+}
+
+delete {
+  url: {{urlHeadEntity}}/editorBoard/remove?editor_id=2
+  body: none
+  auth: inherit
+}
+
+params:query {
+  editor_id: 2
+}

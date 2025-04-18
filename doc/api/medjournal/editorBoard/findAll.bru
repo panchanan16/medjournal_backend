@@ -1,0 +1,15 @@
+meta {
+  name: findAll
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{urlHeadEntity}}/editorBoard/readAll?editor_type=editor
+  body: none
+  auth: inherit
+}
+
+params:query {
+  editor_type: editor
+}

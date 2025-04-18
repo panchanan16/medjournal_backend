@@ -1,0 +1,32 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{urlHeadCore}}/editorBoard/create
+  body: multipartForm
+  auth: inherit
+}
+
+body:json {
+  {
+    "editor_type": "manager",
+    "name": "Raksesh Gupta",
+    "qualification": "mSc in physics",
+    "designation": "Proffessor in Harvard",
+    "institution": "Dibrugargh University",
+    "biography": ""
+  }
+}
+
+body:multipart-form {
+  editor_type: editor
+  name: kanakan billa
+  qualification: Phd in BCOM
+  designation: proffessor in JECC
+  institution: Jorhat university
+  biography: 
+  editorImg: @file(C:\Users\panch\Downloads\indoor_games.jpg)
+}

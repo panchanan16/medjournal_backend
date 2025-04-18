@@ -54,6 +54,23 @@ CREATE TABLE review_process (
 );
 
 
+-- Article charge table
+CREATE TABLE article_charges (
+    ac_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content MEDIUMTEXT NOT NULL
+);
+
+-- Policy Table
+CREATE TABLE policy (
+  pol_id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL UNIQUE,
+  content MEDIUMTEXT DEFAULT NULL,
+  pageUrl VARCHAR(255) NOT NULL UNIQUE,
+  redirectLink VARCHAR(255) DEFAULT NULL
+);
+
+
 -- volume table
 CREATE TABLE volume (
     volume_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -80,6 +97,7 @@ CREATE TABLE editor_board (
     qualification TEXT DEFAULT NULL,
     designation TEXT DEFAULT NULL,
     institution TEXT DEFAULT NULL,
+    biography MEDIUMTEXT DEFAULT NULL,
     imgLink VARCHAR(500) DEFAULT NULL
 );
 
