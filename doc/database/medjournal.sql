@@ -102,3 +102,103 @@ CREATE TABLE editor_board (
 );
 
 
+
+-------------- Article Work -----------------
+
+CREATE TABLE article_main (
+    ariticle_id INT AUTO_INCREMENT PRIMARY KEY,
+    isInHome BOOLEAN,
+    isOpenaccess BOOLEAN,
+    issueNo INT,
+    url TEXT,
+    articleType VARCHAR(100),
+    title TEXT,
+    DOI VARCHAR(100),
+    DOIlink TEXT,
+    PMID VARCHAR(50),
+    PMID_Link TEXT,
+    abstract TEXT,
+    page_from VARCHAR(10),
+    page_to VARCHAR(10),
+    keywords TEXT,
+    how_to_cite TEXT,
+    recieve_date VARCHAR(50),
+    Revised_date VARCHAR(50),
+    Accepted_date VARCHAR(50),
+    published_date VARCHAR(50),
+    available_date VARCHAR(50),
+    Downloads INT,
+    Views INT,
+    pdflink TEXT,
+    xmllink TEXT,
+    citation_apa TEXT,
+    citation_mla TEXT,
+    citation_chicago TEXT,
+    citation_harvard TEXT,
+    citation_vancouver TEXT,
+    FOREIGN KEY (issueNo) REFERENCES vol_issue(is_id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE article_details (
+    ad_id INT AUTO_INCREMENT PRIMARY KEY,
+    ariticle_id INT NOT NULL,
+    Article_Heading TEXT,
+    article_content TEXT,
+    FOREIGN KEY (article_id) REFERENCES article_main(ariticle_id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE article_authors (
+    ar_author_id INT AUTO_INCREMENT PRIMARY KEY,
+    article_id INT NOT NULL,
+    authors_prefix VARCHAR(100),
+    authors_name VARCHAR(200),
+    authors_middlename VARCHAR(200),
+    authors_lastname VARCHAR(200),
+    author_email VARCHAR(250),
+    orchid_id VARCHAR(300),
+    afflication TEXT,
+    qualification TEXT,
+    FOREIGN KEY (article_id) REFERENCES article_main(article_id) ON DELETE CASCADE
+);
+
+
+
+-- Home page details
+
+CREATE TABLE journal_info (
+    j_id INT AUTO_INCREMENT PRIMARY KEY,
+    journal_name VARCHAR(255),
+    abb_name VARCHAR(200),
+    subjects TEXT,
+    journal_url TEXT,
+    issn_print VARCHAR(100),
+    issn_online VARCHAR(100),
+    email VARCHAR(150),
+    thumbnail TEXT,
+    about TEXT,
+    aim_scope TEXT,
+    Porocess_charge VARCHAR(100),
+    cite_score VARCHAR(100),
+    cite_score_link TEXT,
+    impact_factor VARCHAR(100),
+    impact_factor_link TEXT,
+    accepted_rate VARCHAR(100),
+    time_first_desicision VARCHAR(200),
+    acceptance_to_publication VARCHAR(50),
+    review_time VARCHAR(100),
+    logo_journal TEXT
+);
+
+
+
+
+
+
+
+
+
+
+
+

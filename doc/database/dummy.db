@@ -98,6 +98,57 @@ pageUrl
 redirectLink
 
 
+--- Article main
+
+isInHome
+isOpenaccess
+issueNo
+url
+articleType
+title
+DOI
+DOIlink
+PMID
+PMID_Link
+abstract
+page_from
+page_to
+keywords
+how_to_cite
+recieve_date
+Revised_date
+Accepted_date
+published_date
+available_date
+Downloads
+Views
+pdflink
+xmllink
+
+citation_apa
+citation_mla
+citation_chicago
+citation_harvard
+citation_vancouver
+
+Article_Heading
+article_content
+
+
+authors_prefix
+authors_name
+authors_middlename
+authors_lastname
+author_email
+orchid_id
+afflication
+qualification
+
+
+
+
+
+
 
 
 

@@ -1,0 +1,15 @@
+meta {
+  name: update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{urlHeadEntity}}/article/update?article_id=2
+  body: none
+  auth: inherit
+}
+
+params:query {
+  article_id: 2
+}

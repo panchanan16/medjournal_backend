@@ -1,0 +1,15 @@
+meta {
+  name: fineOne
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{urlHeadEntity}}/article/readOne?article_id=2
+  body: none
+  auth: inherit
+}
+
+params:query {
+  article_id: 2
+}

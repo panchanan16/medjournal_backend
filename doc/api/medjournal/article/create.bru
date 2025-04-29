@@ -1,0 +1,46 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{urlHeadEntity}}/article/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "isInHome": false,
+    "isOpenaccess": true,
+    "issueNo": 1,
+    "url": "https://journal.example.com/article/67890",
+    "articleType": "Review Article",
+    "title": "Advancements in Artificial Intelligence for Healthcare",
+    "DOI": "10.5678/example.doi.2025.002",
+    "DOIlink": "https://doi.org/10.5678/example.doi.2025.002",
+    "PMID": "123456789",
+    "PMID_Link": "https://pubmed.ncbi.nlm.nih.gov/123456789",
+    "abstract": "This review provides a comprehensive overview of recent advancements in AI technologies and their applications in medical diagnostics and treatment.",
+    "page_from": "201",
+    "page_to": "225",
+    "keywords": "artificial intelligence, healthcare, machine learning, diagnostics",
+    "how_to_cite": "Lee A. (2025). Advancements in Artificial Intelligence for Healthcare. Journal of Medical Technology, 13(2), 201–225.",
+    "recieve_date": "2025-02-05",
+    "Revised_date": "2025-03-01",
+    "Accepted_date": "2025-03-15",
+    "published_date": "2025-04-01",
+    "available_date": "2025-04-03",
+    "Downloads": 475,
+    "Views": 2020,
+    "pdflink": "https://journal.example.com/pdf/67890",
+    "xmllink": "https://journal.example.com/xml/67890",
+    "citation_apa": "Lee, A. (2025). Advancements in Artificial Intelligence for Healthcare. *Journal of Medical Technology*, 13(2), 201–225.",
+    "citation_mla": "Lee, Alice. \"Advancements in Artificial Intelligence for Healthcare.\" *Journal of Medical Technology* 13.2 (2025): 201–225.",
+    "citation_chicago": "Lee, Alice. 2025. \"Advancements in Artificial Intelligence for Healthcare.\" *Journal of Medical Technology* 13, no. 2: 201–225.",
+    "citation_harvard": "Lee, A., 2025. Advancements in Artificial Intelligence for Healthcare. *Journal of Medical Technology*, 13(2), pp.201–225.",
+    "citation_vancouver": "Lee A. Advancements in Artificial Intelligence for Healthcare. Journal of Medical Technology. 2025;13(2):201–225."
+  }
+  
+}
