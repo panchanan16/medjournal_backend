@@ -5,11 +5,46 @@ meta {
 }
 
 put {
-  url: {{urlHeadEntity}}/article/update?article_id=2
-  body: none
+  url: {{urlHeadEntity}}/article/update?article_id=5
+  body: json
   auth: inherit
 }
 
 params:query {
-  article_id: 2
+  article_id: 5
+}
+
+body:json {
+  {
+        "isInHome": 0,
+        "isOpenaccess": 1,
+        "issueNo": 1,
+        "url": "https://journal.example.com/article/67890",
+        "articleType": "Review Article",
+        "title": "Advancements in Artificial Intelligence for Healthcare",
+        "DOI": "10.5678/example.doi.2025.002",
+        "DOIlink": "https://doi.org/10.5678/example.doi.2025.002",
+        "PMID": "123456789",
+        "PMID_Link": "https://pubmed.ncbi.nlm.nih.gov/123456789",
+        "abstract": "This review provides a comprehensive overview of recent advancements in AI technologies and their applications in medical diagnostics and treatment.",
+        "page_from": "201",
+        "page_to": "225",
+        "keywords": "artificial intelligence, healthcare, machine learning, diagnostics",
+        "how_to_cite": "Lee A. (2025). Advancements in Artificial Intelligence for Healthcare. Journal of Medical Technology, 13(2), 201–225.",
+        "recieve_date": "2025-02-05",
+        "Revised_date": "2025-03-01",
+        "Accepted_date": "2025-03-15",
+        "published_date": "2025-04-01",
+        "available_date": "2025-04-03",
+        "Downloads": 475,
+        "Views": 2020,
+        "pdflink": "https://journal.example.com/pdf/67890",
+        "xmllink": "https://journal.example.com/xml/67890",
+        "citation_apa": "Panchan deka university",
+        "citation_mla": "Hongkong livvwood university",
+        "citation_chicago": "Lions king club university",
+        "citation_harvard": "Tacobell luck of university mension of lorem",
+        "citation_vancouver": "Like us lovely proffesional academy"
+    
+  }
 }
