@@ -145,22 +145,22 @@ CREATE TABLE article_details (
     ariticle_id INT NOT NULL,
     Article_Heading TEXT,
     article_content TEXT,
-    FOREIGN KEY (article_id) REFERENCES article_main(ariticle_id) ON DELETE CASCADE
+    FOREIGN KEY (ariticle_id) REFERENCES article_main(ariticle_id) ON DELETE CASCADE
 );
 
 
 CREATE TABLE article_authors (
     ar_author_id INT AUTO_INCREMENT PRIMARY KEY,
-    article_id INT NOT NULL,
-    authors_prefix VARCHAR(100),
+    ariticle_id INT NOT NULL,
+    authors_prefix VARCHAR(100) DEFAULT NULL,
     authors_name VARCHAR(200),
-    authors_middlename VARCHAR(200),
-    authors_lastname VARCHAR(200),
-    author_email VARCHAR(250),
-    orchid_id VARCHAR(300),
-    afflication TEXT,
-    qualification TEXT,
-    FOREIGN KEY (article_id) REFERENCES article_main(article_id) ON DELETE CASCADE
+    authors_middlename VARCHAR(200) DEFAULT NULL,
+    authors_lastname VARCHAR(200) DEFAULT NULL,
+    author_email VARCHAR(250) DEFAULT NULL,
+    orchid_id VARCHAR(300) DEFAULT NULL,
+    afflication TEXT DEFAULT NULL,
+    qualification TEXT DEFAULT NULL,
+    FOREIGN KEY (ariticle_id) REFERENCES article_main(ariticle_id) ON DELETE CASCADE
 );
 
 

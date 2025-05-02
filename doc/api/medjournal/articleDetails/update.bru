@@ -1,0 +1,19 @@
+meta {
+  name: update
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{urlHeadEntity}}/articledetails/update
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "ad_id" : 1,
+    "Article_Heading": "dedicated to publishing",
+    "article_content": "<h2>Journal of Gastrointestinal Oncology</h2>\r\n    <h3>Aims and Scope</h3>\r\n    <p><strong>Journal of Gastrointestinal Oncology</strong> (Print ISSN 2078-6891, Online ISSN 2219-679X, J Gastrointest Oncol, JGO), the official journal of Society for Gastrointestinal Oncology (SGO), is an open access, international peer-reviewed journal. It is published quarterly (Mar, June, Sep, Dec, 2013). Formerly JGO.</p>"
+  }
+}

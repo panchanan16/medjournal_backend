@@ -1,0 +1,15 @@
+meta {
+  name: readAll
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{urlHeadEntity}}/articleauthor/readAll?article_id=2
+  body: none
+  auth: inherit
+}
+
+params:query {
+  article_id: 2
+}

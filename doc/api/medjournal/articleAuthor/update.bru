@@ -1,0 +1,28 @@
+meta {
+  name: update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{urlHeadEntity}}/articleauthor/update
+  body: json
+  auth: inherit
+}
+
+body:json {
+  [
+    {
+      "ar_author_id" : 2,
+      "ariticle_id": 2,
+      "authors_prefix": "Dr.",
+      "authors_name": "Sunny ahmed",
+      "authors_middlename": "",
+      "authors_lastname": "",
+      "author_email": "sunny.smith@example.com",
+      "orchid_id": "1825-0097",
+      "afflication": "Department of Methodology",
+      "qualification": "Ph.D. in Methodology"
+    }
+  ]
+}

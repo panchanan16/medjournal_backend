@@ -1,0 +1,49 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{urlHeadEntity}}/articleauthor/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  [
+    {
+      "ariticle_id": 2,
+      "authors_prefix": "Dr.",
+      "authors_name": "Mintu singh",
+      "authors_middlename": "E.",
+      "authors_lastname": "",
+      "author_email": "jane.smith@example.com",
+      "orchid_id": "0000-0002-1825-0097",
+      "afflication": "Department of Biology, Stanford University",
+      "qualification": "Ph.D. in Molecular Biology"
+    },
+    {
+      "ariticle_id": 2,
+      "authors_prefix": "Dr.",
+      "authors_name": "Jane",
+      "authors_middlename": "E.",
+      "authors_lastname": "Smith",
+      "author_email": "jane.smith@example.com",
+      "orchid_id": "0000-0002-1825-0097",
+      "afflication": "Department of Chemistry, ADP University",
+      "qualification": "Ph.D. in Molecular Chemistry"
+    },
+    {
+      "ariticle_id": 2,
+      "authors_prefix": "Dr.",
+      "authors_name": "KANKAN",
+      "authors_middlename": "",
+      "authors_lastname": "",
+      "author_email": "jane.smith@example.com",
+      "orchid_id": "0000-0002-1825-0097",
+      "afflication": "Department of Statics, Stanford University",
+      "qualification": "Ph.D. in Molecular Statics"
+    }
+  ]
+}

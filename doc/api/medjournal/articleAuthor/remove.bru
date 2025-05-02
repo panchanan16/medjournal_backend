@@ -1,0 +1,15 @@
+meta {
+  name: remove
+  type: http
+  seq: 2
+}
+
+delete {
+  url: {{urlHeadEntity}}/articleauthor/remove?author_id=5
+  body: none
+  auth: inherit
+}
+
+params:query {
+  author_id: 5
+}

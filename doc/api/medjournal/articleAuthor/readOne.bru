@@ -1,0 +1,15 @@
+meta {
+  name: readOne
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{urlHeadEntity}}/articleauthor/readOne?author_id=2
+  body: none
+  auth: inherit
+}
+
+params:query {
+  author_id: 2
+}
