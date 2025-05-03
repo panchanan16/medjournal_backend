@@ -1,0 +1,15 @@
+meta {
+  name: remove
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{urlHeadEntity}}/onlinefirst/remove?of_id=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  of_id: 1
+}

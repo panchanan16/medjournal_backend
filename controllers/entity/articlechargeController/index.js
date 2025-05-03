@@ -44,12 +44,13 @@ class ArticleChargeController {
    * Update an existing article charge
    */
   static async update(req, res) {
-    const { ac_id, title, content } = req.body;
+    const { ac_id } = req.query
+    const { title, content } = req.body;
 
     try {
       // Check if article charge exists
       const [articles] = await pool.execute('SELECT * FROM article_charges WHERE ac_id = ?', [ac_id]);
-      
+
       if (articles.length === 0) {
         return res.status(404).json({
           status: false,
@@ -65,7 +66,7 @@ class ArticleChargeController {
         updateFields.push('title = ?');
         values.push(title);
       }
-      
+
       if (content) {
         updateFields.push('content = ?');
         values.push(content);
@@ -121,7 +122,7 @@ class ArticleChargeController {
     try {
       // Check if article charge exists
       const [articles] = await pool.execute('SELECT * FROM article_charges WHERE ac_id = ?', [ac_id]);
-      
+
       if (articles.length === 0) {
         return res.status(404).json({
           status: false,
@@ -160,7 +161,7 @@ class ArticleChargeController {
 
     try {
       const [articles] = await pool.execute('SELECT * FROM article_charges WHERE ac_id = ?', [ac_id]);
-      
+
       if (articles.length === 0) {
         return res.status(404).json({
           status: false,
@@ -186,12 +187,12 @@ class ArticleChargeController {
    * Find all article charges with optional search
    */
   static async findAll(req, res) {
-    try {      
+    try {
       let query = 'SELECT * FROM article_charges';
-      
+
       // Execute the query
       const [articles] = await pool.execute(query);
-      
+
       return res.status(200).json({
         status: true,
         count: articles.length,

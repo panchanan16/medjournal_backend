@@ -1,0 +1,15 @@
+meta {
+  name: remove
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{urlHeadEntity}}/articlecharge/remove?ac_id=3
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ac_id: 3
+}

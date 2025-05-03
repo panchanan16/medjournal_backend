@@ -1,0 +1,18 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{urlHeadEntity}}/onlinefirst/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "Publish Ahead of Print",
+    "content": "<p>The articles on this page have been copyedited and reviewed and approved by the authors. They have not yet been scheduled for a specific issue. For published content, please visit Archive.</p>"
+  }
+}

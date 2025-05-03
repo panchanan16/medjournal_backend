@@ -1,0 +1,22 @@
+meta {
+  name: update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{urlHeadEntity}}/articlecharge/update?ac_id=4
+  body: json
+  auth: inherit
+}
+
+params:query {
+  ac_id: 4
+}
+
+body:json {
+  {
+    "title": "Article Processing Charges",
+    "content": "<p><strong>What does the Article Processing Charge include?</strong></p>\n<ul>\n<li>Developing and maintaining electronic tools for peer review and publication</li>\n<li>Article production and preparation in various formats for publication</li>\n<li>Immediate, worldwide open access to the full article text</li>\n<li>Liaison with abstracting and indexing services</li>\n</ul>\n<table border=\"1\" cellpadding=\"10\">\n<tbody>\n<tr>\n<th>Journal Title</th>\n<th><strong>Article Processing Charges (USD)</strong></th>\n</tr>\n<tr>\n<td><em>Journal of Gastrointestinal Oncology</em></td>\n<td>$1680*</td>\n</tr>\n<tr>\n<td colspan=\"2\">\n<p>* Editorial, editorial commentary and review articles that are commissioned by Editorial Office are free of charge.</p>\n<p>* This APC policy has been updated since November 6, 2024.</p>\n</td>\n</tr>\n</tbody>\n</table>\n<p>&nbsp;</p>"
+  }
+}

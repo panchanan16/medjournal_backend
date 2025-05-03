@@ -135,6 +135,7 @@ Article_Heading
 article_content
 
 
+
 authors_prefix
 authors_name
 authors_middlename
@@ -143,6 +144,30 @@ author_email
 orchid_id
 afflication
 qualification
+
+
+---- Journal ------
+
+journal_name
+abb_name
+subjects
+journal_url
+issn_print
+issn_online
+email
+thumbnail
+about
+aim_scope
+Porocess_charge
+cite_score
+cite_score_link
+impact_factor
+impact_factor_link
+accepted_rate
+time_first_desicision
+acceptance_to_publication
+review_time
+logo_journal
 
 
 

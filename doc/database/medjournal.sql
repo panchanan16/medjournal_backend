@@ -192,6 +192,14 @@ CREATE TABLE journal_info (
 );
 
 
+-- Online first table
+CREATE TABLE onlinefirst (
+    of_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content MEDIUMTEXT NOT NULL
+);
+
+
 
 
 
