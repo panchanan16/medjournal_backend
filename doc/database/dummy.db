@@ -172,6 +172,32 @@ logo_journal
 
 
 
+Policy table -----------
+
+policy_name
+content
+url
+
+
+Reviewers 
+
+title
+content
+postedOn
+
+
+Reviewers
+
+month
+year
+name
+country
+university
+biography
+
+
+
+
 
 
 

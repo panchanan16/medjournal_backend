@@ -201,6 +201,44 @@ CREATE TABLE onlinefirst (
 
 
 
+-- Ethics And Policies ---
+CREATE TABLE policies (
+    pol_id INT AUTO_INCREMENT PRIMARY KEY,
+    policy_name VARCHAR(255) NOT NULL,
+    content TEXT,
+    url VARCHAR(500)
+);
+
+
+
+--- Review tables -----
+
+
+CREATE TABLE review_main (
+    revlist_id INT AUTO_INCREMENT PRIMARY KEY,
+    title TEXT NOT NULL,
+    content TEXT DEFAULT NULL,
+    postedOn VARCHAR(100) DEFAULT NULL
+);
+
+CREATE TABLE reviewer_list (
+    r_id INT AUTO_INCREMENT PRIMARY KEY,
+    rev_id INT NOT NULL,
+    month VARCHAR(20) DEFAULT NULL,
+    year VARCHAR(10) DEFAULT NULL,
+    name VARCHAR(255) DEFAULT NULL,
+    country VARCHAR(100) DEFAULT NULL,
+    university VARCHAR(255) DEFAULT NULL,
+    biography TEXT DEFAULT NULL,
+    FOREIGN KEY (rev_id) REFERENCES review_main(revlist_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+
+
+
+
+
 
 
 

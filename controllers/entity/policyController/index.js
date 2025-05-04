@@ -4,13 +4,14 @@ class PolicyController {
   // Create a new policy
   static async create(req, res) {
     try {
-      const { name, content, pageUrl, redirectLink } = req.body;
-      
+      const { name, content, redirectLink } = req.body;
+      const pageUrl = name.split(' ').map((el) => el.charAt(0).toLowerCase() + el.slice(1)).join('-')
+
       const [result] = await pool.execute(
         'INSERT INTO policy (name, content, pageUrl, redirectLink) VALUES (?, ?, ?, ?)',
         [name, content, pageUrl, redirectLink]
       );
-      
+
       if (result.affectedRows > 0) {
         return res.status(201).json({
           status: true,
@@ -36,13 +37,14 @@ class PolicyController {
   // Update an existing policy
   static async update(req, res) {
     try {
-      const { pol_id, name, content, pageUrl, redirectLink } = req.body;
-      
+      const { pol_id } = req.query;
+      const { name, content, pageUrl, redirectLink } = req.body;
+
       const [result] = await pool.execute(
         'UPDATE policy SET name = ?, content = ?, pageUrl = ?, redirectLink = ? WHERE pol_id = ?',
         [name, content, pageUrl, redirectLink, pol_id]
       );
-      
+
       if (result.affectedRows > 0) {
         return res.status(200).json({
           status: true,
@@ -67,14 +69,14 @@ class PolicyController {
   // Delete a policy
   static async remove(req, res) {
     try {
-      const { pol_id } = req.params;      
-      
+      const { pol_id } = req.params;
+
       const [result] = await pool.execute(
         'DELETE FROM policy WHERE pol_id = ?',
         [pol_id]
       );
-      
-      
+
+
       if (result.affectedRows > 0) {
         return res.status(200).json({
           status: true,
@@ -99,13 +101,26 @@ class PolicyController {
   // Find one policy by ID
   static async findOne(req, res) {
     try {
-      const { pageUrl } = req.query;
-      
+      const { pol_id, pageUrl } = req.query;
+
+      let whereClause = ""
+      let whereParams = []
+
+      if (pol_id) {
+        whereClause = "pol_id = ?"
+        whereParams.push(pol_id)
+      }
+
+      if (pageUrl) {
+        whereClause = "pageUrl = ?"
+        whereParams.push(pageUrl)
+      }
+
       const [rows] = await pool.execute(
-        'SELECT * FROM policy WHERE pageUrl = ?',
-        [pageUrl]
+        `SELECT * FROM policy WHERE ${whereClause};`,
+        whereParams
       );
-      
+
       if (rows.length > 0) {
         return res.status(200).json({
           status: true,
@@ -129,9 +144,9 @@ class PolicyController {
 
   // Find all policies
   static async findAll(req, res) {
-    try {      
+    try {
       const [rows] = await pool.execute('SELECT pol_id, name, pageUrl, redirectLink FROM policy');
-      
+
       return res.status(200).json({
         status: true,
         count: rows.length,
