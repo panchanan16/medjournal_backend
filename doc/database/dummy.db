@@ -188,12 +188,19 @@ postedOn
 
 Reviewers
 
+rev_id
 month
 year
 name
 country
 university
 biography
+
+
+title
+content
+
+author_instruction
 
 
 

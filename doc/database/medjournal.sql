@@ -235,6 +235,17 @@ CREATE TABLE reviewer_list (
 
 
 
+----- Author Instruction -------
+
+CREATE TABLE author_instruction (
+  ai_id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  content MEDIUMTEXT NOT NULL
+);
+
+
+
+
 
 
 

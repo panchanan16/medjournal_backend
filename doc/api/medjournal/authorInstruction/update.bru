@@ -1,0 +1,22 @@
+meta {
+  name: update
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{urlHeadEntity}}/authorinstruct/update?ai_id=1
+  body: json
+  auth: inherit
+}
+
+params:query {
+  ai_id: 1
+}
+
+body:json {
+  {
+    "title": "Guidelines for Authors",
+    "content": "<p>Here is guideline for authorrs </p>"
+  }
+}
