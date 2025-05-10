@@ -1,0 +1,15 @@
+meta {
+  name: get full article
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{urlHeadCore}}/articlefull/readOne/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: 5
+}

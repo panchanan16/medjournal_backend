@@ -29,8 +29,6 @@ class ArticleController {
         available_date,
         Downloads,
         Views,
-        pdflink,
-        xmllink,
         citation_apa,
         citation_mla,
         citation_chicago,
@@ -38,6 +36,11 @@ class ArticleController {
         citation_vancouver
       } = req.body;
 
+      const allfiles = req.allFilePaths
+
+      const pdflink = allfiles[0] ? allfiles[0] : "";
+      const xmllink = allfiles[1] ? allfiles[1] : ""
+      
       const [result] = await pool.execute(
         `INSERT INTO article_main (
           isInHome, isOpenaccess, issueNo, url, articleType, title, DOI, DOIlink,
@@ -78,14 +81,16 @@ class ArticleController {
           citation_vancouver
         ]
       );
-
-
+      
+      
       res.status(201).json({
         status: true,
         message: 'Article created successfully',
+        // data: {main: req.body, file: allfiles}
         data: {
           article_id: result.insertId,
-          ...req.body
+          ...req.body,
+          files: allfiles
         }
       });
     } catch (error) {
@@ -105,7 +110,7 @@ class ArticleController {
     try {
       const { article_id } = req.query;
       const updateData = req.body;
-
+      
       // Create dynamic query based on provided fields
       const fields = Object.keys(updateData);
       if (fields.length === 0) {
@@ -114,25 +119,25 @@ class ArticleController {
           message: 'No update data provided'
         });
       }
-
+      
       const setClause = fields.map(field => `${field} = ?`).join(', ');
       const values = fields.map(field => updateData[field]);
-
+      
       // Add article_id to values array
       values.push(article_id);
-
+      
       const [result] = await pool.execute(
         `UPDATE article_main SET ${setClause} WHERE ariticle_id = ?`,
         [...values]
-      );
-
+      );    
+      
       if (result.affectedRows === 0) {
         return res.status(404).json({
           status: false,
           message: 'Article not found'
         });
       }
-
+      
       res.status(200).json({
         status: true,
         message: 'Article updated successfully',
@@ -157,19 +162,19 @@ class ArticleController {
   static async delete(req, res) {
     try {
       const { article_id } = req.query;
-
+      
       const [result] = await pool.execute(
         'DELETE FROM article_main WHERE ariticle_id = ?',
         [article_id]
       );
-
+      
       if (result.affectedRows === 0) {
         return res.status(404).json({
           status: false,
           message: 'Article not found'
         });
       }
-
+      
       res.status(200).json({
         status: true,
         message: 'Article deleted successfully'
@@ -196,15 +201,15 @@ class ArticleController {
         'SELECT * FROM article_main WHERE ariticle_id = ?',
         [article_id]
       );
-
-
+      
+      
       if (rows.length === 0) {
         return res.status(404).json({
           status: false,
           message: 'Article not found'
         });
       }
-
+      
       res.status(200).json({
         status: true,
         data: rows[0]
@@ -224,73 +229,70 @@ class ArticleController {
    */
   static async findAll(req, res) {
     try {
-      const {
-        page = 1,
-        limit = 10,
-        sortBy = 'ariticle_id',
+      const { 
+        page = 1, 
+        limit = 10, 
+        sortBy = 'ariticle_id', 
         sortOrder = 'DESC',
         articleType,
         isInHome,
         isOpenaccess
       } = req.query;
 
-
+      
       // Calculate offset for pagination
       const offset = (parseInt(page) - 1) * parseInt(limit);
-
+      
       // Build WHERE clause based on provided filters
       let whereClause = '';
       const whereParams = [];
-
+      
       if (articleType) {
         whereClause += 'articleType = ? ';
         whereParams.push(articleType);
       }
-
+      
       if (isInHome !== undefined) {
         whereClause += whereClause ? 'AND isInHome = ? ' : 'isInHome = ? ';
         whereParams.push(isInHome);
       }
-
+      
       if (isOpenaccess !== undefined) {
         whereClause += whereClause ? 'AND isOpenaccess = ? ' : 'isOpenaccess = ? ';
         whereParams.push(isOpenaccess);
       }
-
+      
       // Add WHERE to SQL if we have conditions
       const whereSQL = whereClause ? `WHERE ${whereClause}` : '';
 
-
+      
       // Get total count for pagination
       const [countRows] = await pool.execute(
         `SELECT COUNT(*) as total FROM article_main ${whereSQL}`,
         whereParams
       );
 
-
+      
       const totalItems = countRows[0].total;
       const totalPages = Math.ceil(totalItems / parseInt(limit));
 
       console.log([...whereParams, parseInt(limit), offset])
-
+      
       // Get paginated data
       const [rows] = await pool.execute(
-        `SELECT am.ariticle_id, am.title, am.url, am.published_date, am.isInHome, am.articleType, am.abstract, am.keywords FROM article_main am ${whereSQL} ORDER BY ${sortBy} ${sortOrder === 'DESC' ? 'DESC' : 'ASC'} LIMIT ${parseInt(limit)} OFFSET ${offset};`,
+        `SELECT * FROM article_main ${whereSQL} ORDER BY ${sortBy} ${sortOrder === 'DESC' ? 'DESC' : 'ASC'} LIMIT ${parseInt(limit)} OFFSET ${offset};`,
         [...whereParams]
       );
-
+      
       res.status(200).json({
         status: true,
-        data: {
-          articleList: rows,
-          pagination: {
-            page: parseInt(page),
-            limit: parseInt(limit),
-            totalItems,
-            totalPages
-          }
-
-        },
+        data: rows,
+        pagination: {
+          page: parseInt(page),
+          limit: parseInt(limit),
+          totalItems,
+          totalPages
+        }
       });
     } catch (error) {
       console.error('Error finding articles:', error);
