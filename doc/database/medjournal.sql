@@ -80,13 +80,49 @@ CREATE TABLE volume (
 );
 
 
--- issue table 
+------------- ISSUE SECTION --------------
+
+
+-- standard issue table 
 CREATE TABLE vol_issue (
     is_id INT AUTO_INCREMENT PRIMARY KEY,
     volume_id INT NOT NULL,
     issue_name VARCHAR(255) NOT NULL,
     FOREIGN KEY (volume_id) REFERENCES volume(volume_id)
 );
+
+--- special issue table
+
+CREATE TABLE special_issues (
+    sp_issue_id INT AUTO_INCREMENT PRIMARY KEY,
+    issueId INT NOT NULL,
+    isSpecial BOOLEAN DEFAULT FALSE,
+    isPublished BOOLEAN DEFAULT FALSE,
+    publish_date VARCHAR(80) DEFAULT NULL,
+    submission_deadline VARCHAR(80) DEFAULT NULL,
+    issueCoverImgUrl VARCHAR(500),
+    special_issue_title VARCHAR(255) NOT NULL,
+    special_issue_about MEDIUMTEXT,
+    FOREIGN KEY (issueId) REFERENCES vol_issue(is_id) ON DELETE CASCADE
+);
+
+
+---- special issue authors ----------
+
+CREATE TABLE special_authors (
+    sp_auth_id INT AUTO_INCREMENT PRIMARY KEY,
+    issueId INT NOT NULL,
+    name VARCHAR(200) NOT NULL,
+    email VARCHAR(150) NOT NULL,
+    orchid_id VARCHAR(100),
+    afflication TEXT DEFAULT NULL,
+    qualification TEXT DEFAULT NULL,
+    FOREIGN KEY (issueId) REFERENCES vol_issue(is_id) ON DELETE CASCADE
+);
+
+
+
+
 
 
 -- editor board table

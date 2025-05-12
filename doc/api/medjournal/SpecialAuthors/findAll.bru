@@ -1,0 +1,15 @@
+meta {
+  name: findAll
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{urlHeadEntity}}/specialissueEditor/readAll?issueId=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  issueId: 1
+}

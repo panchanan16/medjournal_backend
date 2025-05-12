@@ -1,0 +1,28 @@
+meta {
+  name: update
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{urlHeadEntity}}/specialissue/update?sp_issue_id=2
+  body: json
+  auth: inherit
+}
+
+params:query {
+  sp_issue_id: 2
+}
+
+body:json {
+  {
+    "issueId": 1,
+    "isSpecial": true,
+    "isPublished": false,
+    "publish_date": "2025-06-15",
+    "submission_deadline": "2025-05-30",
+    "issueCoverImgUrl": "https://example.com/images/cover101.jpg",
+    "special_issue_title": "Ethics in Modern Technology",
+    "special_issue_about": "This special issue explores the ethical challenges and frameworks surrounding the use of artificial intelligence across various sectors."
+  }
+}

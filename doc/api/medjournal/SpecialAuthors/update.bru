@@ -1,0 +1,43 @@
+meta {
+  name: update
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{urlHeadEntity}}/specialissueEditor/update
+  body: json
+  auth: inherit
+}
+
+body:json {
+  [
+    {
+      "id": 1,
+      "issueId": 1,
+      "name": "Dr. Priyanush Sharma",
+      "email": "priya.sharma@example.com",
+      "orchid_id": "0000-0002-1825-0097",
+      "afflication": "Department of Computer Science, Dhing University",
+      "qualification": "Ph.D. in Artificial Intelligence"
+    },
+    {
+      "id": 2,
+      "issueId": 1,
+      "name": "Dr. Mintu Sharma",
+      "email": "priya.sharma@example.com",
+      "orchid_id": "0000-0002-1825-0097",
+      "afflication": "Department of Chemistry, Dibrugarh University",
+      "qualification": "Ph.D. in Artificial Intelligence"
+    },
+    {
+      "id": 3,
+      "issueId": 1,
+      "name": "Dr. Sankar Sharma",
+      "email": "priya.sharma@example.com",
+      "orchid_id": "0000-0002-1825-0097",
+      "afflication": "Department of Physics,Amity University",
+      "qualification": "Ph.D. in Artificial Intelligence"
+    }
+  ]
+}
