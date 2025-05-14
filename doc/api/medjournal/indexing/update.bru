@@ -1,0 +1,23 @@
+meta {
+  name: update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{urlHeadEntity}}/index/update?ind_id=1
+  body: json
+  auth: inherit
+}
+
+params:query {
+  ind_id: 1
+}
+
+body:json {
+  {
+    "index_name": "indexing",
+    "link": "https://oi4jgjotjgotj",
+    "imgUrl": "/public/ojfjrf/hrf"
+  }
+}

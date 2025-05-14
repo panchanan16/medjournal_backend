@@ -5,6 +5,7 @@ const { uploadSingleFile, uploadMultipleFiles, uploadMultipleFields } = require(
 const editorBoardController = require('@/controllers/core/editorBoard')
 const articleMainController = require('@/controllers/core/articleMain')
 const articleFullController = require('@/controllers/core/articleDetails')
+const specialIssueFullController = require('@/controllers/core/specialIssue')
 
 // Editor Board API ----
 coreRouter.post('/editorBoard/create', uploadSingleFile('editorImg', 'editorBoard'), editorBoardController.create)
@@ -15,6 +16,9 @@ coreRouter.post('/articleMain/create', uploadMultipleFields([{ name: 'pdflink', 
 
 // Article full version ----
 coreRouter.get('/articlefull/readOne/:id', articleFullController.getArticleById)
+
+// Special issue with articles and authors
+coreRouter.get('/specialissuefull/readOne', specialIssueFullController.getSpecialIssueDetails)
 
 
 module.exports = coreRouter

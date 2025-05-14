@@ -5,7 +5,11 @@ meta {
 }
 
 get {
-  url: {{urlHeadEntity}}/specialissue/readAll
+  url: {{urlHeadEntity}}/specialissue/readAll?isPublished=1
   body: none
   auth: inherit
+}
+
+params:query {
+  isPublished: 1
 }

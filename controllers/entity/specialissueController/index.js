@@ -68,8 +68,8 @@ class SpecialIssueController {
     // Get all special issues
     static async findAll(req, res) {
         try {
-
-            const [rows] = await pool.execute('SELECT * FROM special_issues');
+            const { isPublished } = req.query
+            const [rows] = await pool.execute(`SELECT * FROM special_issues WHERE isPublished = ?`, [isPublished]);
 
             return res.status(200).json({
                 status: true,

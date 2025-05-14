@@ -203,6 +203,65 @@ content
 author_instruction
 
 
+------- special issue table --------
+
+issueId,
+isSpecial,
+isPublished
+publish_date,
+submission_deadline,
+issueCoverImgUrl,
+special_issue_title,
+special_issue_about,
+
+
+issueId 
+name
+email
+orchid_id
+afflication
+qualification
+
+
+
+CREATE TABLE article_main (
+    ariticle_id INT AUTO_INCREMENT PRIMARY KEY,
+    isInHome BOOLEAN,
+    isOpenaccess BOOLEAN,
+    issueNo INT,
+    url TEXT,
+    articleType VARCHAR(100),
+    title TEXT,
+    FOREIGN KEY (issueNo) REFERENCES vol_issue(is_id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE special_issues (
+    sp_issue_id INT AUTO_INCREMENT PRIMARY KEY,
+    issueId INT NOT NULL,
+    isSpecial BOOLEAN DEFAULT FALSE,
+    isPublished BOOLEAN DEFAULT FALSE,
+    publish_date VARCHAR(80) DEFAULT NULL,
+    submission_deadline VARCHAR(80) DEFAULT NULL,
+    issueCoverImgUrl VARCHAR(500),
+    special_issue_title VARCHAR(255) NOT NULL,
+    special_issue_about MEDIUMTEXT,
+    FOREIGN KEY (issueId) REFERENCES vol_issue(is_id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE special_authors (
+    sp_auth_id INT AUTO_INCREMENT PRIMARY KEY,
+    issueId INT NOT NULL,
+    name VARCHAR(200) NOT NULL,
+    email VARCHAR(150) NOT NULL,
+    orchid_id VARCHAR(100),
+    afflication TEXT DEFAULT NULL,
+    qualification TEXT DEFAULT NULL,
+    FOREIGN KEY (issueId) REFERENCES vol_issue(is_id) ON DELETE CASCADE
+);
+
+
 
 
 

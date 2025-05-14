@@ -51,16 +51,37 @@ class IndexControllers {
         }
     };
 
+
+    // Get all indexes
+    static async findOne(req, res) {
+        try {
+            const { ind_id } = req.query
+            const [rows] = await pool.query('SELECT * FROM index_ing WHERE ind_id = ?', [ind_id]);
+
+            res.json({
+                status: true,
+                data: rows[0]
+            });
+        } catch (error) {
+            console.error('Error fetching indexes:', error);
+            res.status(500).json({
+                status: false,
+                message: 'Failed to fetch indexes',
+                error: error.message
+            });
+        }
+    };
+
     // UPDATE controllers 
 
     static async update(req, res) {
         try {
-            const { id } = req.params;
+            const { ind_id } = req.query;
             const { index_name, link, imgUrl, isDisplay } = req.body;
 
             const [result] = await pool.query(
                 'UPDATE index_ing SET index_name = ?, link = ?, imgUrl = ?, isDisplay = ? WHERE ind_id = ?',
-                [index_name, link, imgUrl, isDisplay, id]
+                [index_name, link, imgUrl, isDisplay, ind_id]
             );
 
             if (result.affectedRows === 0) {
@@ -74,7 +95,7 @@ class IndexControllers {
                 status: true,
                 message: 'Index updated successfully',
                 data: {
-                    ind_id: parseInt(id),
+                    ind_id: ind_id,
                     index_name,
                     link,
                     imgUrl,
