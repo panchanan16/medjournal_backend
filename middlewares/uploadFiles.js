@@ -27,15 +27,14 @@ const uploadSingleFile = (fieldName, folderName) => {
 
       // If no file was provided
       if (!req.file) {
-        return res.status(400).json({
-          status: false,
-          message: 'No file uploaded'
-        });
+        req.filePath = "NO"
+        next();
+      } else {
+        // Add file path to the request
+        req.filePath = `/${req.file.path.replace(/\\/g, '/')}`;
+        next();
       }
 
-      // Add file path to the request
-      req.filePath = `/${req.file.path.replace(/\\/g, '/')}`;
-      next();
     });
   };
 };
@@ -141,29 +140,11 @@ const uploadMultipleFields = (fields, folderName) => {
 
       // Add a flattened array of all file paths for convenience
       req.allFilePaths = Object.values(req.filePaths).flat();
-
       next();
     });
   };
 };
 
-// Example route for single file upload
-// router.post('/upload', uploadSingleFile('file'), (req, res) => {
-//   res.status(200).json({
-//     status: true,
-//     message: 'File uploaded successfully',
-//     filePath: req.filePath
-//   });
-// });
-
-// Example route for multiple files upload
-// router.post('/upload-multiple', uploadMultipleFiles('files', 5), (req, res) => {
-//   res.status(200).json({
-//     status: true,
-//     message: 'Files uploaded successfully',
-//     filePaths: req.filePaths
-//   });
-// });
 
 module.exports = {
   uploadSingleFile,

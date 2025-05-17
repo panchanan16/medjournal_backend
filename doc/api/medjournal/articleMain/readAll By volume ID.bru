@@ -1,0 +1,15 @@
+meta {
+  name: readAll By volume ID
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{urlHeadCore}}/getByVolumeId/readAll?volId=2
+  body: none
+  auth: inherit
+}
+
+params:query {
+  volId: 2
+}

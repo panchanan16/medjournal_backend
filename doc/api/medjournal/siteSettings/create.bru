@@ -1,0 +1,28 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{urlHeadEntity}}/settings/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "phone": "+456-7890",
+    "whatsapp": "+654-3210",
+    "submissionEmail": "submit@example.com",
+    "supportEmail": "support@example.com",
+    "FooterCopyright": "© 2025 Example Corp. All rights reserved.",
+    "AboutUs": "<p>We are dedicated to innovation and excellence.</p>\n<p>Our mission is to serve the community through technology.</p>\n<p>Join us in our journey to a better tomorrow.</p>",
+    "ContactUs": "<p>You can reach us via email or phone.</p>\n<p>Customer support is available 24/7.</p>\n<p>We are located in New York, USA.</p>",
+    "PrivacyPolicy": "<p>We value your privacy and data protection.</p>\n<p>All user data is securely stored and handled.</p>\n<p>Read our policy to understand more.</p>",
+    "TermsCondition": "<p>Use of this site is subject to terms.</p>\n<p>Users must be 18 years or older.</p>\n<p>By using the site, you agree to all conditions.</p>",
+    "Copyright": "<p>This content is protected under copyright law.</p>\n<p>No unauthorized use is allowed.</p>\n<p>Contact us for permissions and licensing.</p>",
+    "CookiePrefer": "<p>We use cookies to improve your experience.</p>\n<p>You can customize your preferences anytime.</p>\n<p>Visit our settings page to learn more.</p>"
+  }
+  
+}

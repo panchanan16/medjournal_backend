@@ -262,6 +262,40 @@ CREATE TABLE special_authors (
 );
 
 
+phone
+whatsapp
+submissionEmail
+supportEmail
+FooterCopyright
+AboutUs
+ContactUs
+PrivacyPolicy
+TermsCondition
+Copyright
+CookiePrefer
+
+
+journal_name
+Abbreviation Name
+Subjects 
+issn_print
+issn_online
+email
+thumbnail
+about
+aim_scope
+processingCharge
+cite_score
+cite_score_link
+impact_factor
+impact_factor_link
+accepted_rate
+time_first_desicision
+acceptance_to_publication
+review_time
+logo_journal
+
+
 
 
 

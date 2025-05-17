@@ -1,0 +1,35 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{urlHeadCore}}/journal/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "journal_name": "International Journal of Advanced Studies",
+    "abbreviation_name": "Int. J. Adv. Stud.",
+    "subjects": "Science, Technology, Engineering, Mathematics",
+    "issn_print": "1234-5678",
+    "issn_online": "8765-4321",
+    "email": "contact@ijadvstudies.org",
+    "thumbnail": "https://example.com/images/journal-thumbnail.jpg",
+    "about": "<p>This journal focuses on publishing high-quality research in various disciplines.</p><p>We aim to support scientific communities worldwide.</p><p>Our editorial board includes leading experts from across the globe.</p>",
+    "aim_scope": "<p>The aim is to promote advanced interdisciplinary research.</p><p>Scope includes engineering, natural sciences, and healthcare.</p><p>We encourage innovation and collaborative research.</p>",
+    "processingCharge": "$300",
+    "cite_score": "5.2",
+    "cite_score_link": "https://example.com/metrics/cite-score",
+    "impact_factor": "4.8",
+    "impact_factor_link": "https://example.com/metrics/impact-factor",
+    "accepted_rate": "35%",
+    "time_first_decision": "15 days",
+    "acceptance_to_publication": "30 days",
+    "review_time": "20 days",
+    "logo_journal": "https://example.com/images/journal-logo.png"
+  }
+}

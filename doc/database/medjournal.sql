@@ -92,7 +92,6 @@ CREATE TABLE vol_issue (
 );
 
 --- special issue table
-
 CREATE TABLE special_issues (
     sp_issue_id INT AUTO_INCREMENT PRIMARY KEY,
     issueId INT NOT NULL,
@@ -119,8 +118,6 @@ CREATE TABLE special_authors (
     qualification TEXT DEFAULT NULL,
     FOREIGN KEY (issueId) REFERENCES vol_issue(is_id) ON DELETE CASCADE
 );
-
-
 
 
 
@@ -278,6 +275,51 @@ CREATE TABLE author_instruction (
   title VARCHAR(255) NOT NULL,
   content MEDIUMTEXT NOT NULL
 );
+
+
+---- Site Settings -----
+
+CREATE TABLE site_settings (
+    settings_id INT AUTO_INCREMENT PRIMARY KEY,
+    phone VARCHAR(20),
+    whatsapp VARCHAR(20),
+    submissionEmail VARCHAR(100),
+    supportEmail VARCHAR(100),
+    FooterCopyright VARCHAR(500),
+    AboutUs MEDIUMTEXT,
+    ContactUs MEDIUMTEXT,
+    PrivacyPolicy MEDIUMTEXT,
+    TermsCondition MEDIUMTEXT,
+    Copyright MEDIUMTEXT,
+    CookiePrefer MEDIUMTEXT
+);
+
+
+----- Main JOurnal ------
+
+CREATE TABLE main_journals (
+  mj_id INT AUTO_INCREMENT PRIMARY KEY,
+  journal_name VARCHAR(255),
+  abbreviation_name VARCHAR(255),
+  subjects TEXT,
+  issn_print VARCHAR(120),
+  issn_online VARCHAR(120),
+  email VARCHAR(100),
+  thumbnail VARCHAR(255),
+  about MEDIUMTEXT,
+  aim_scope MEDIUMTEXT,
+  processingCharge VARCHAR(100),
+  cite_score VARCHAR(150),
+  cite_score_link VARCHAR(255),
+  impact_factor VARCHAR(150),
+  impact_factor_link VARCHAR(255),
+  accepted_rate VARCHAR(150),
+  time_first_decision VARCHAR(150),
+  acceptance_to_publication VARCHAR(150),
+  review_time VARCHAR(150),
+  logo_journal VARCHAR(255)
+);
+
 
 
 

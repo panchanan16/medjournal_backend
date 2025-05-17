@@ -40,7 +40,7 @@ class ArticleController {
 
       const pdflink = allfiles[0] ? allfiles[0] : "";
       const xmllink = allfiles[1] ? allfiles[1] : ""
-      
+
       const [result] = await pool.execute(
         `INSERT INTO article_main (
           isInHome, isOpenaccess, issueNo, url, articleType, title, DOI, DOIlink,
@@ -81,8 +81,8 @@ class ArticleController {
           citation_vancouver
         ]
       );
-      
-      
+
+
       res.status(201).json({
         status: true,
         message: 'Article created successfully',
@@ -110,7 +110,7 @@ class ArticleController {
     try {
       const { article_id } = req.query;
       const updateData = req.body;
-      
+
       // Create dynamic query based on provided fields
       const fields = Object.keys(updateData);
       if (fields.length === 0) {
@@ -119,25 +119,25 @@ class ArticleController {
           message: 'No update data provided'
         });
       }
-      
+
       const setClause = fields.map(field => `${field} = ?`).join(', ');
       const values = fields.map(field => updateData[field]);
-      
+
       // Add article_id to values array
       values.push(article_id);
-      
+
       const [result] = await pool.execute(
         `UPDATE article_main SET ${setClause} WHERE ariticle_id = ?`,
         [...values]
-      );    
-      
+      );
+
       if (result.affectedRows === 0) {
         return res.status(404).json({
           status: false,
           message: 'Article not found'
         });
       }
-      
+
       res.status(200).json({
         status: true,
         message: 'Article updated successfully',
@@ -162,19 +162,19 @@ class ArticleController {
   static async delete(req, res) {
     try {
       const { article_id } = req.query;
-      
+
       const [result] = await pool.execute(
         'DELETE FROM article_main WHERE ariticle_id = ?',
         [article_id]
       );
-      
+
       if (result.affectedRows === 0) {
         return res.status(404).json({
           status: false,
           message: 'Article not found'
         });
       }
-      
+
       res.status(200).json({
         status: true,
         message: 'Article deleted successfully'
@@ -201,15 +201,15 @@ class ArticleController {
         'SELECT * FROM article_main WHERE ariticle_id = ?',
         [article_id]
       );
-      
-      
+
+
       if (rows.length === 0) {
         return res.status(404).json({
           status: false,
           message: 'Article not found'
         });
       }
-      
+
       res.status(200).json({
         status: true,
         data: rows[0]
@@ -229,61 +229,61 @@ class ArticleController {
    */
   static async findAll(req, res) {
     try {
-      const { 
-        page = 1, 
-        limit = 10, 
-        sortBy = 'ariticle_id', 
+      const {
+        page = 1,
+        limit = 10,
+        sortBy = 'ariticle_id',
         sortOrder = 'DESC',
         articleType,
         isInHome,
         isOpenaccess
       } = req.query;
 
-      
+
       // Calculate offset for pagination
       const offset = (parseInt(page) - 1) * parseInt(limit);
-      
+
       // Build WHERE clause based on provided filters
       let whereClause = '';
       const whereParams = [];
-      
+
       if (articleType) {
         whereClause += 'articleType = ? ';
         whereParams.push(articleType);
       }
-      
+
       if (isInHome !== undefined) {
         whereClause += whereClause ? 'AND isInHome = ? ' : 'isInHome = ? ';
         whereParams.push(isInHome);
       }
-      
+
       if (isOpenaccess !== undefined) {
         whereClause += whereClause ? 'AND isOpenaccess = ? ' : 'isOpenaccess = ? ';
         whereParams.push(isOpenaccess);
       }
-      
+
       // Add WHERE to SQL if we have conditions
       const whereSQL = whereClause ? `WHERE ${whereClause}` : '';
 
-      
+
       // Get total count for pagination
       const [countRows] = await pool.execute(
         `SELECT COUNT(*) as total FROM article_main ${whereSQL}`,
         whereParams
       );
 
-      
+
       const totalItems = countRows[0].total;
       const totalPages = Math.ceil(totalItems / parseInt(limit));
 
       console.log([...whereParams, parseInt(limit), offset])
-      
+
       // Get paginated data
       const [rows] = await pool.execute(
         `SELECT * FROM article_main ${whereSQL} ORDER BY ${sortBy} ${sortOrder === 'DESC' ? 'DESC' : 'ASC'} LIMIT ${parseInt(limit)} OFFSET ${offset};`,
         [...whereParams]
       );
-      
+
       res.status(200).json({
         status: true,
         data: rows,
@@ -303,6 +303,23 @@ class ArticleController {
       });
     }
   }
+
+  static async getArticlesWithVolumeId(req, res) {
+    const { volId } = req.query
+    const [vols] = await pool.execute(
+      `SELECT * FROM vol_issue WHERE volume_id = ?`, [volId])
+
+    if (vols.length == 0) {
+      return res.status(404).json({ status: false, data: null, msg: "No article Found!" })
+    }
+    const placeholders = vols.map(() => '?').join(',');
+    const params = vols.map((el) => el.is_id)
+    const query = `SELECT am.articleType, am.issueNo, am.title, am.ariticle_id FROM article_main am WHERE issueNo IN (${placeholders})`;
+    const [articles] = await pool.execute(
+      query, params)
+    return res.status(200).json({ status: true, data: { vols, articles } })
+  }
+
 }
 
 module.exports = ArticleController;
