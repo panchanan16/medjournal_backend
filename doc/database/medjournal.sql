@@ -300,6 +300,7 @@ CREATE TABLE site_settings (
 CREATE TABLE main_journals (
   mj_id INT AUTO_INCREMENT PRIMARY KEY,
   journal_name VARCHAR(255),
+  tagline VARCHAR(500) DEFAULT NULL,
   abbreviation_name VARCHAR(255),
   subjects TEXT,
   issn_print VARCHAR(120),
@@ -319,6 +320,19 @@ CREATE TABLE main_journals (
   review_time VARCHAR(150),
   logo_journal VARCHAR(255)
 );
+
+
+--- Review Guideline ----
+
+
+CREATE TABLE review_guideline (
+    rg_id INT AUTO_INCREMENT PRIMARY KEY,
+    title TEXT NOT NULL,
+    content MEDIUMTEXT DEFAULT NULL
+);
+
+
+ALTER TABLE main_journals ADD COLUMN tagline VARCHAR(500) DEFAULT NULL AFTER journal_name
 
 
 

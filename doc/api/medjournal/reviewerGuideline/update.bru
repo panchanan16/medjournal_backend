@@ -1,0 +1,22 @@
+meta {
+  name: update
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{urlHeadEntity}}/reviewguide/update?rg_id=1
+  body: json
+  auth: inherit
+}
+
+params:query {
+  rg_id: 1
+}
+
+body:json {
+  {
+    "title" : "Guidelines for Reviwers", 
+    "content": "<p>This is guideline for reviwers</p>"
+  }
+}

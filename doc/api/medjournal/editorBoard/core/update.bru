@@ -1,0 +1,15 @@
+meta {
+  name: update
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{urlHeadCore}}/editorBoard/update?editor_id=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  editor_id: 1
+}

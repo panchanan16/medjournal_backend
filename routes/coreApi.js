@@ -9,7 +9,8 @@ const specialIssueFullController = require('@/controllers/core/specialIssue')
 const journalController = require('@/controllers/core/journal')
 
 // Editor Board API ----
-coreRouter.post('/editorBoard/create', uploadSingleFile('editorImg', 'editorBoard'), editorBoardController.create)
+coreRouter.post('/editorBoard/create', uploadSingleFile('editor_img', 'editorBoard'), editorBoardController.create)
+coreRouter.put('/editorBoard/update', uploadSingleFile('editor_img', 'editorBoard'), editorBoardController.update)
 
 // Article main API ----
 coreRouter.post('/articleMain/create', uploadMultipleFields([{ name: 'pdflink', maxCount: 1 }, { name: 'xmllink', maxCount: 1 }], 'testarticle'), articleMainController.create)

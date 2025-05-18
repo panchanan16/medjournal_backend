@@ -1,11 +1,12 @@
 const pool = require('@/config/db.config');
+const fs = require('fs')
 
 class EditorBoardController {
   /*
    * Create a new editor board member
    */
   static async create(req, res) {
-    const { editor_type, name, qualification, designation, institution, biography } = req.body;
+    const { editor_type, name, qualification, designation, institution, editorImg, biography } = req.body;
 
     try {
       if (!editor_type || !name) {
@@ -16,7 +17,7 @@ class EditorBoardController {
       }
 
       // Get image link from uploaded file if it exists
-      const imgLink = req.file ? req.filePath : null;
+      const imgLink = req.file ? req.filePath : editorImg;
 
       const [result] = await pool.execute(
         'INSERT INTO editor_board (editor_type, name, qualification, designation, institution, biography, imgLink) VALUES (?, ?, ?, ?, ?, ?, ?)',
@@ -48,74 +49,11 @@ class EditorBoardController {
   }
 
   /*
-   * Upload image for an existing editor
-   */
-  static async uploadImage(req, res) {
-    const { editor_id } = req.params;
-
-    try {
-      // Check if editor exists
-      const [editors] = await pool.execute('SELECT * FROM editor_board WHERE editor_id = ?', [editor_id]);
-
-      if (editors.length === 0) {
-        return res.status(404).json({
-          status: false,
-          message: 'Editor board member not found'
-        });
-      }
-
-      // If no file was uploaded
-      if (!req.file) {
-        return res.status(400).json({
-          status: false,
-          message: 'No image file uploaded'
-        });
-      }
-
-      // Get the file path and update the database
-      const imgLink = `/${req.file.path.replace(/\\/g, '/')}`;
-
-      // If there was a previous image, you might want to delete it
-      const oldImgLink = editors[0].imgLink;
-      if (oldImgLink && fs.existsSync(oldImgLink.substring(1))) {
-        fs.unlinkSync(oldImgLink.substring(1));
-      }
-
-      const [result] = await pool.execute(
-        'UPDATE editor_board SET imgLink = ? WHERE editor_id = ?',
-        [imgLink, editor_id]
-      );
-
-      if (result.affectedRows > 0) {
-        // Get the updated record
-        const [updatedEditor] = await pool.execute('SELECT * FROM editor_board WHERE editor_id = ?', [editor_id]);
-
-        return res.status(200).json({
-          status: true,
-          message: 'Editor image uploaded successfully',
-          data: updatedEditor[0]
-        });
-      } else {
-        return res.status(400).json({
-          status: false,
-          message: 'Failed to update editor image'
-        });
-      }
-    } catch (error) {
-      console.error('Error uploading editor image:', error);
-      return res.status(500).json({
-        status: false,
-        message: 'Failed to upload editor image',
-        error: error.message
-      });
-    }
-  }
-
-  /*
    * Update an existing editor board member
    */
   static async update(req, res) {
-    const { editor_id, editor_type, name, qualification, designation, institution, biography } = req.body;
+    const { editor_id } = req.query
+    const { editor_type, name, qualification, designation, editorImg, institution, biography } = req.body;
 
     try {
       // Check if editor exists
@@ -163,8 +101,10 @@ class EditorBoardController {
       }
 
       // If there's a file uploaded, add the imgLink field
+
+      let imgLink = ''
       if (req.file) {
-        const imgLink = `/${req.file.path.replace(/\\/g, '/')}`;
+        imgLink = req.filePath;
         updateFields.push('imgLink = ?');
         values.push(imgLink);
 
@@ -173,6 +113,8 @@ class EditorBoardController {
         if (oldImgLink && fs.existsSync(oldImgLink.substring(1))) {
           fs.unlinkSync(oldImgLink.substring(1));
         }
+      } else {
+        imgLink = editorImg
       }
 
       // Add editor_id to the values array

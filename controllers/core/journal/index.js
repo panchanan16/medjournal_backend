@@ -6,6 +6,7 @@ class MainJournalControllers {
         try {
             const {
                 journal_name,
+                tagline,
                 abbreviation_name,
                 subjects,
                 issn_print,
@@ -31,13 +32,14 @@ class MainJournalControllers {
 
             const [result] = await pool.execute(
                 `INSERT INTO main_journals (
-            journal_name, abbreviation_name, subjects, issn_print, issn_online,
+            journal_name, tagline, abbreviation_name, subjects, issn_print, issn_online,
             email, thumbnail, about, aim_scope, processingCharge, cite_score,
             cite_score_link, impact_factor, impact_factor_link, accepted_rate,
             time_first_decision, acceptance_to_publication, review_time, logo_journal
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
                     journal_name,
+                    tagline,
                     abbreviation_name,
                     subjects,
                     issn_print,
@@ -83,6 +85,7 @@ class MainJournalControllers {
             const { mj_id } = req.query;
             const {
                 journal_name,
+                tagline,
                 abbreviation_name,
                 subjects,
                 issn_print,
@@ -113,7 +116,12 @@ class MainJournalControllers {
             if (journal_name !== undefined) {
                 updateFields.push('journal_name = ?');
                 queryParams.push(journal_name);
-            }
+            } 
+
+            if (tagline !== undefined) {
+                updateFields.push('tagline = ?');
+                queryParams.push(tagline);
+            } 
 
             if (abbreviation_name !== undefined) {
                 updateFields.push('abbreviation_name = ?');

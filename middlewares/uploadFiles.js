@@ -106,10 +106,7 @@ const uploadMultipleFields = (fields, folderName) => {
 
       // Check if any files were uploaded
       if (!req.files) {
-        return res.status(400).json({
-          status: false,
-          message: 'No files uploaded'
-        });
+        return next()
       }
 
       // Process each field's files
@@ -132,10 +129,7 @@ const uploadMultipleFields = (fields, folderName) => {
 
       // If no files were actually uploaded across all fields
       if (totalFiles === 0) {
-        return res.status(400).json({
-          status: false,
-          message: 'No files uploaded for any of the specified fields'
-        });
+        return next()
       }
 
       // Add a flattened array of all file paths for convenience
