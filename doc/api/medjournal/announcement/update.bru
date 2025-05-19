@@ -1,0 +1,15 @@
+meta {
+  name: update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{urlHeadEntity}}/announce/update?id=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  id: 1
+}

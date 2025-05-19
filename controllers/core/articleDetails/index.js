@@ -6,7 +6,7 @@ const pool = require('@/config/db.config')
 exports.getArticleById = async (req, res) => {
   try {
     const articleId = req.params.id;
-    
+
     if (!articleId) {
       return res.status(400).json({ success: false, message: 'Article ID is required' });
     }
@@ -54,15 +54,6 @@ exports.getArticleById = async (req, res) => {
       title: rows[0].title,
       abstract: rows[0].abstract,
       authors: [],
-      contributions: [
-        '(I) Conception and design: All authors',
-        '(II) Administrative support: All authors',
-        '(III) Provision of study materials or patients: All authors',
-        '(IV) Collection and assembly of data: All authors',
-        '(V) Data analysis and interpretation: All authors',
-        '(VI) Manuscript writing: All authors',
-        '(VII) Final approval of manuscript: All authors'
-      ],
       sections: [],
       metrics: {
         views: rows[0].Views || 0,
@@ -72,23 +63,20 @@ exports.getArticleById = async (req, res) => {
 
     // Process authors (remove duplicates since we're joining tables)
     const processedAuthorEmails = new Set();
-    
+
     rows.forEach((row, index) => {
       if (row.authors_name && !processedAuthorEmails.has(row.author_email)) {
         // Construct full name with any available components
         let fullName = row.authors_name;
         if (row.authors_middlename) fullName += ' ' + row.authors_middlename;
         if (row.authors_lastname) fullName += ' ' + row.authors_lastname;
-        
+
         const authorData = {
           name: fullName,
-          superscript: (index + 1).toString(),
-          corresponding: !!row.author_email, // Author is corresponding if email exists
-          email: row.author_email || null
         };
-        
+
         articleData.authors.push(authorData);
-        
+
         if (row.author_email) {
           processedAuthorEmails.add(row.author_email);
         }
@@ -97,14 +85,14 @@ exports.getArticleById = async (req, res) => {
 
     // Process article sections (remove duplicates)
     const processedSections = new Set();
-    
+
     rows.forEach(row => {
       if (row.Article_Heading && row.article_content && !processedSections.has(row.Article_Heading)) {
         articleData.sections.push({
           title: row.Article_Heading,
           content: row.article_content
         });
-        
+
         processedSections.add(row.Article_Heading);
       }
     });
@@ -123,10 +111,8 @@ exports.getArticleById = async (req, res) => {
   }
 };
 
-/**
+/*
  * Get all articles with basic information
- * @param {object} req - Express request object
- * @param {object} res - Express response object
  */
 exports.getAllArticles = async (req, res) => {
   try {
@@ -168,5 +154,25 @@ exports.getAllArticles = async (req, res) => {
       message: 'Internal server error',
       error: error.message
     });
+  }
+};
+
+exports.getArticleSectionById = async (req, res) => {
+  const { ariticle_id } = req.query;
+
+  try {
+    const [rows] = await pool.execute(
+      'SELECT * FROM article_details WHERE ariticle_id = ?',
+      [ariticle_id]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ status: false, msg: 'Article not found' });
+    }
+
+    res.status(200).json({ status: true, data: rows });
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ status: false, msg: 'Internal server error' });
   }
 };

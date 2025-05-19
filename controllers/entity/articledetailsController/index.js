@@ -333,7 +333,7 @@ class ArticleDetailsController {
    */
   static async findOne(req, res) {
     try {
-      const { ad_id } = req.params;
+      const { ad_id } = req.query;
       
       if (!ad_id) {
         return res.status(400).json({

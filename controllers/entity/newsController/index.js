@@ -52,8 +52,8 @@ class NewsControllers {
     // Get a single news article by ID
     static findOne = async (req, res) => {
         try {
-            const { id } = req.query;
-            const [rows] = await pool.query('SELECT * FROM our_news WHERE news_id = ?', [id]);
+            const { news_id } = req.query;
+            const [rows] = await pool.query('SELECT * FROM our_news WHERE news_id = ?', [news_id]);
 
             if (rows.length === 0) {
                 return res.status(404).json({
@@ -79,12 +79,12 @@ class NewsControllers {
     // Update a news article
     static update = async (req, res) => {
         try {
-            const { id } = req.params;
+            const { news_id } = req.query;
             const { heading, content } = req.body;
 
             const [result] = await pool.query(
                 'UPDATE our_news SET heading = ?, content = ? WHERE news_id = ?',
-                [heading, content, id]
+                [heading, content, news_id]
             );
 
             if (result.affectedRows === 0) {
@@ -98,7 +98,7 @@ class NewsControllers {
                 status: true,
                 message: 'News article updated successfully',
                 data: {
-                    news_id: parseInt(id),
+                    news_id: parseInt(news_id),
                     heading,
                     content
                 }
@@ -116,8 +116,8 @@ class NewsControllers {
     // Delete a news article
     static remove = async (req, res) => {
         try {
-            const { id } = req.params;
-            const [result] = await pool.query('DELETE FROM our_news WHERE news_id = ?', [id]);
+            const { news_id } = req.params;
+            const [result] = await pool.query('DELETE FROM our_news WHERE news_id = ?', [news_id]);
 
             if (result.affectedRows === 0) {
                 return res.status(404).json({

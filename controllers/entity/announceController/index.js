@@ -91,7 +91,8 @@ class AnnouncementControllers {
     // Update an announcement
     static update = async (req, res) => {
         try {
-            const { id, heading, content } = req.body;
+            const { id } = req.query
+            const { heading, content } = req.body;
 
             // Execute query
             const [result] = await pool.execute(

@@ -36,10 +36,8 @@ class ArticleController {
         citation_vancouver
       } = req.body;
 
-      const allfiles = req.allFilePaths
-
-      const pdflink = allfiles[0] ? allfiles[0] : "";
-      const xmllink = allfiles[1] ? allfiles[1] : ""
+      const pdflink =  req.file || req.files && req.filePaths['pdflink'] ? req.filePaths['pdflink'][0] : "";
+      const xmllink =  req.file || req.files && req.filePaths['xmllink'] ? req.filePaths['xmllink'][0] : "";
 
       const [result] = await pool.execute(
         `INSERT INTO article_main (
@@ -90,7 +88,6 @@ class ArticleController {
         data: {
           article_id: result.insertId,
           ...req.body,
-          files: allfiles
         }
       });
     } catch (error) {

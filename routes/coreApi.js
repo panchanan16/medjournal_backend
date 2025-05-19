@@ -7,6 +7,7 @@ const articleMainController = require('@/controllers/core/articleMain')
 const articleFullController = require('@/controllers/core/articleDetails')
 const specialIssueFullController = require('@/controllers/core/specialIssue')
 const journalController = require('@/controllers/core/journal')
+const newsAnnouncementController = require('@/controllers/core/newsAnnouncement')
 
 // Editor Board API ----
 coreRouter.post('/editorBoard/create', uploadSingleFile('editor_img', 'editorBoard'), editorBoardController.create)
@@ -20,6 +21,9 @@ coreRouter.get('/getByVolumeId/readAll', articleMainController.getArticlesWithVo
 // Article full version ----
 coreRouter.get('/articlefull/readOne/:id', articleFullController.getArticleById)
 
+// Article Section GET api
+coreRouter.get('/articleSection/readOne', articleFullController.getArticleSectionById)
+
 // Special issue with articles and authors
 coreRouter.get('/specialissuefull/readOne', specialIssueFullController.getSpecialIssueDetails)
 
@@ -29,6 +33,9 @@ coreRouter.post('/journal/create', uploadMultipleFields([{ name: 'logo_img', max
 coreRouter.get('/journal/readAll', journalController.findAll)
 coreRouter.put('/journal/update', uploadMultipleFields([{ name: 'logo_img', maxCount: 1 }, { name: 'thumbnail_img', maxCount: 1 }], 'journal'), journalController.update)
 
+
+// Get both Article and News ----
+coreRouter.get('/newsAnnouncement/readAll', newsAnnouncementController.getAllAnnouncementsAndNews)
 
 module.exports = coreRouter
 

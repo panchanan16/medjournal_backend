@@ -1,0 +1,22 @@
+meta {
+  name: update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{urlHeadEntity}}/news/update?news_id=1
+  body: json
+  auth: inherit
+}
+
+params:query {
+  news_id: 1
+}
+
+body:json {
+  {
+    "heading": "this is a big news",
+    "content": "<p>hcbi irhiirifur irhihtihgit idhvigf</p>"
+  }
+}
