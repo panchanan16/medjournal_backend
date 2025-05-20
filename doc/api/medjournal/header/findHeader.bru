@@ -1,0 +1,16 @@
+meta {
+  name: findHeader
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{urlHeadCore}}/header/readOne?mj_id=1&settings_id=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  mj_id: 1
+  settings_id: 1
+}

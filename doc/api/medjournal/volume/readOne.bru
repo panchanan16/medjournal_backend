@@ -1,0 +1,15 @@
+meta {
+  name: readOne
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{urlHeadEntity}}/volume/readOne?volume_id=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  volume_id: 1
+}

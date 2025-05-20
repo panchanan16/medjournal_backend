@@ -29,6 +29,8 @@ class ArticleController {
         available_date,
         Downloads,
         Views,
+        pdflink,
+        xmllink,
         citation_apa,
         citation_mla,
         citation_chicago,
@@ -36,8 +38,8 @@ class ArticleController {
         citation_vancouver
       } = req.body;
 
-      const pdflink =  req.file || req.files && req.filePaths['pdflink'] ? req.filePaths['pdflink'][0] : "";
-      const xmllink =  req.file || req.files && req.filePaths['xmllink'] ? req.filePaths['xmllink'][0] : "";
+      const pdf = req.file || req.files && req.filePaths['pdfFile'] ? req.filePaths['pdfFile'][0] : pdflink;
+      const xml = req.file || req.files && req.filePaths['xmlFile'] ? req.filePaths['xmlFile'][0] : xmllink;
 
       const [result] = await pool.execute(
         `INSERT INTO article_main (
@@ -70,8 +72,8 @@ class ArticleController {
           available_date,
           Downloads || 0,
           Views || 0,
-          pdflink,
-          xmllink,
+          pdf,
+          xml,
           citation_apa,
           citation_mla,
           citation_chicago,
@@ -100,7 +102,7 @@ class ArticleController {
     }
   }
 
-  /**
+  /*
    * Update an existing article
    */
   static async update(req, res) {
@@ -109,7 +111,9 @@ class ArticleController {
       const updateData = req.body;
 
       // Create dynamic query based on provided fields
-      const fields = Object.keys(updateData);
+      const key = Object.keys(updateData);
+      const fields = key.filter(item => item !== "xmlFile" && item !== "pdfFile" && item !== "isPDF" && item !== "isXml");
+
       if (fields.length === 0) {
         return res.status(400).json({
           status: false,
@@ -117,11 +121,24 @@ class ArticleController {
         });
       }
 
+      const pdf = req.file || req.files && req.filePaths['pdfFile'] ? req.filePaths['pdfFile'][0] : updateData.pdflink;
+      const xml = req.file || req.files && req.filePaths['xmlFile'] ? req.filePaths['xmlFile'][0] : updateData.xmllink;
+
       const setClause = fields.map(field => `${field} = ?`).join(', ');
-      const values = fields.map(field => updateData[field]);
+      const values = fields.map(field => {
+        if (field == 'pdflink') {
+          return pdf;
+        } else if (field == 'xmllink') {
+          return xml;
+        } else {
+          return updateData[field]
+        }
+        
+      });
 
       // Add article_id to values array
       values.push(article_id);
+
 
       const [result] = await pool.execute(
         `UPDATE article_main SET ${setClause} WHERE ariticle_id = ?`,
@@ -139,8 +156,9 @@ class ArticleController {
         status: true,
         message: 'Article updated successfully',
         data: {
-          article_id: parseInt(article_id),
-          ...updateData
+          setClause, values, fields
+          // article_id: parseInt(article_id),
+          // ...updateData
         }
       });
     } catch (error) {

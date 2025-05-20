@@ -5,24 +5,52 @@ meta {
 }
 
 put {
-  url: {{urlHeadEntity}}/articleauthor/update
+  url: {{urlHeadEntity}}/articleauthor/update?article_id=19
   body: json
   auth: inherit
+}
+
+params:query {
+  article_id: 19
 }
 
 body:json {
   [
     {
-      "ar_author_id" : 2,
-      "ariticle_id": 2,
+      "ar_author_id": "",
+      "ariticle_id": 19,
       "authors_prefix": "Dr.",
-      "authors_name": "Sunny ahmed",
+      "authors_name": "Mintu singh",
+      "authors_middlename": "E.",
+      "authors_lastname": "",
+      "author_email": "jane.smith@example.com",
+      "orchid_id": "0000-0002-1825-0097",
+      "afflication": "Department of Biology, Stanford University",
+      "qualification": "Ph.D. in Molecular Biology"
+    },
+    {
+      "ar_author_id": "",
+      "ariticle_id": 19,
+      "authors_prefix": "Dr.",
+      "authors_name": "Jane",
+      "authors_middlename": "E.",
+      "authors_lastname": "Smith",
+      "author_email": "jane.smith@example.com",
+      "orchid_id": "0000-0002-1825-0097",
+      "afflication": "Department of Chemistry, ADP University",
+      "qualification": "Ph.D. in Molecular Chemistry"
+    },
+    {
+      "ar_author_id": "",
+      "ariticle_id": 19,
+      "authors_prefix": "Dr.",
+      "authors_name": "KANKAN",
       "authors_middlename": "",
       "authors_lastname": "",
-      "author_email": "sunny.smith@example.com",
-      "orchid_id": "1825-0097",
-      "afflication": "Department of Methodology",
-      "qualification": "Ph.D. in Methodology"
+      "author_email": "jane.smith@example.com",
+      "orchid_id": "0000-0002-1825-0097",
+      "afflication": "Department of Statics, Stanford University",
+      "qualification": "Ph.D. in Molecular Statics"
     }
   ]
 }

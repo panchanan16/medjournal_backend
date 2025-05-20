@@ -99,7 +99,8 @@ exports.getArticleById = async (req, res) => {
 
     return res.status(200).json({
       status: true,
-      data: articleData
+      data: articleData,
+      rows
     });
   } catch (error) {
     console.error('Error fetching article data:', error);

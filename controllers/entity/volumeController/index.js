@@ -61,10 +61,10 @@ class VolumeControllers {
     // Find one volume by ID
     static async findOne(req, res) {
         try {
-            const { id } = req.query;
+            const { volume_id } = req.query;
             const [rows] = await pool.execute(
                 'SELECT * FROM volume WHERE volume_id = ?',
-                [id]
+                [volume_id]
             );
 
             if (rows.length === 0) {
@@ -91,7 +91,7 @@ class VolumeControllers {
     // Update a volume
     static async update(req, res) {
         try {
-            const { id, volume_name, volume_img, volume_year } = req.body;
+            const { volume_id, volume_name, volume_img, volume_year } = req.body;
 
             if (!volume_name) {
                 return res.status(400).json({
@@ -103,7 +103,7 @@ class VolumeControllers {
             // Check if the volume exists
             const [check] = await pool.execute(
                 'SELECT * FROM volume WHERE volume_id = ?',
-                [id]
+                [volume_id]
             );
 
             if (check.length === 0) {
@@ -113,16 +113,16 @@ class VolumeControllers {
                 });
             }
 
-            const [result] = await connection.execute(
+            const [result] = await pool.execute(
                 'UPDATE volume SET volume_name = ?, volume_img = ?, volume_year = ? WHERE volume_id = ?',
-                [volume_name, volume_img, volume_year, id]
+                [volume_name, volume_img, volume_year, volume_id]
             );
 
             return res.status(200).json({
                 status: true,
                 message: 'Volume updated successfully',
                 data: {
-                    volume_id: parseInt(id),
+                    volume_id: parseInt(volume_id),
                     volume_name,
                     volume_img,
                     volume_year

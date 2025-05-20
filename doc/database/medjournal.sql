@@ -142,6 +142,7 @@ CREATE TABLE article_main (
     ariticle_id INT AUTO_INCREMENT PRIMARY KEY,
     isInHome BOOLEAN,
     isOpenaccess BOOLEAN,
+    isInPress BOOLEAN DEFAULT 0;
     issueNo INT,
     url TEXT,
     articleType VARCHAR(100),
@@ -332,7 +333,7 @@ CREATE TABLE review_guideline (
 );
 
 
-ALTER TABLE main_journals ADD COLUMN tagline VARCHAR(500) DEFAULT NULL AFTER journal_name
+ALTER TABLE article_main ADD COLUMN isInPress BOOLEAN DEFAULT 0 AFTER isOpenaccess;
 
 
 
