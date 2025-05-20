@@ -6,6 +6,15 @@ meta {
 
 put {
   url: {{urlHeadEntity}}/volume/update
-  body: none
+  body: json
   auth: inherit
+}
+
+body:json {
+  {
+    "volume_id": 2,
+    "volume_name": "volume xxxx",
+    "volume_img": "/onojto/onon",
+    "volume_year": "2026"
+  }
 }
