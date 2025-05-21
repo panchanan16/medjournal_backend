@@ -3,3 +3,4 @@
 ../frontend
 /logs/** 
 ./public
+.env.production
