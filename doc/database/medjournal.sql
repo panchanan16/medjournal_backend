@@ -142,8 +142,8 @@ CREATE TABLE article_main (
     ariticle_id INT AUTO_INCREMENT PRIMARY KEY,
     isInHome BOOLEAN,
     isOpenaccess BOOLEAN,
-    isInPress BOOLEAN DEFAULT 0;
-    issueNo INT,
+    isInPress BOOLEAN DEFAULT 0,
+    issueNo INT NOT NULL,
     url TEXT,
     articleType VARCHAR(100),
     title TEXT,
@@ -331,6 +331,48 @@ CREATE TABLE review_guideline (
     title TEXT NOT NULL,
     content MEDIUMTEXT DEFAULT NULL
 );
+
+
+
+---- Article Submission table ------
+
+CREATE TABLE manuscripts (
+    manu_id INT AUTO_INCREMENT PRIMARY KEY,
+    status VARCHAR(150) DEFAULT NULL,
+    pay_status VARCHAR(150) DEFAULT NULL,
+    user INT NOT NULL,
+    MRN_number VARCHAR(150) DEFAULT NULL,
+    email VARCHAR(100) DEFAULT NULL,
+    manuscript_title TEXT DEFAULT NULL,
+    abstract TEXT DEFAULT NULL,
+    keywords TEXT DEFAULT NULL,
+    article_file VARCHAR(255) DEFAULT NULL,
+    acceptance_letter VARCHAR(255) DEFAULT NULL,
+    invoice VARCHAR(255) DEFAULT NULL,
+    additional_file VARCHAR(255) DEFAULT NULL,
+    editorial_comment TEXT DEFAULT NULL,
+    published_link VARCHAR(255) DEFAULT NULL,
+    isReminder BOOLEAN DEFAULT NULL,
+    submitted_on VARCHAR(100) DEFAULT NULL,
+    updated_on VARCHAR(100) DEFAULT NULL
+);
+
+
+
+
+------ slider contents -------
+
+CREATE TABLE sliders (
+    slider_id INT AUTO_INCREMENT PRIMARY KEY,
+    slide_title VARCHAR(255) NOT NULL,
+    slider_desc TEXT,
+    slider_link VARCHAR(500),
+    slider_img VARCHAR(500),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
 
 
 ALTER TABLE article_main ADD COLUMN isInPress BOOLEAN DEFAULT 0 AFTER isOpenaccess;

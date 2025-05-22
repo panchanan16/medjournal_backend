@@ -2,6 +2,9 @@ const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
 
+
+
+// 1. database fields of file should be actual file input
 function configureStorage(folder) {
     const storage = multer.diskStorage({
         destination: (req, file, cb) => {

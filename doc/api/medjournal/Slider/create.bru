@@ -1,0 +1,22 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{urlHeadCore}}/slider/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "slide_title": "Welcome to Our Site",
+    "slider_desc": "Discover amazing features and offers.",
+    "slider_link": "https://example.com/promo",
+    "slider_img": "",
+    "slider_img_link" : "slider_img"
+  }
+  
+}

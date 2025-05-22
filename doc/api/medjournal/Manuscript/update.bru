@@ -1,0 +1,41 @@
+meta {
+  name: update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{urlHeadCore}}/manuscript/update?manu_id=1
+  body: json
+  auth: inherit
+}
+
+params:query {
+  manu_id: 1
+}
+
+body:json {
+  {
+    "status": "Pending",
+    "pay_status": "Unpaid",
+    "user": 123,
+    "MRN_number": "MRN0012345",
+    "email": "example@example.com",
+    "manuscript_title": "Manuscript Title",
+    "abstract": "This is a abstract for the manuscript.",
+    "keywords": "keyword1, keyword2, keyword3",
+    "article_file_link": "article_file.pdf",
+    "acceptance_letter_link": "acceptance_letter.pdf",
+    "invoice_link": "invoice_123.pdf",
+    "additional_file_link": "supplementary_data.zip",
+    "editorial_comment": "Please revise the methodology section.",
+    "published_link": "https://journal.example.com/article/12345",
+    "isReminder": false,
+    "submitted_on": "2025-05-20",
+    "updated_on": "2025-05-21",
+    "article_file" : "",
+    "acceptance_letter" : "",
+    "invoice": "",
+    "additional_file": ""
+  }
+}

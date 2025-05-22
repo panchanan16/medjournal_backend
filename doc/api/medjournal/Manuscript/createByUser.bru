@@ -1,0 +1,23 @@
+meta {
+  name: createByUser
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{urlHeadCore}}/manuscript/createByUser
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "manuscript_title": "Manuscript Title 2",
+    "user": 1,
+    "abstract": "This is a abstract for the manuscript.",
+    "keywords": "keyword1, keyword2, keyword3",
+    "article_file_link": "article_file.pdf",
+    "submitted_on": "2025-05-20",
+    "article_file": ""
+  }
+}

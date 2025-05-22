@@ -318,13 +318,13 @@ class MainJournalControllers {
     static async findAll(req, res) {
         try {
             // Get paginated results
-            const [rows] = await pool.execute(
-                'SELECT * FROM main_journals;',
+            const [rows] = await pool.query(
+                'SELECT * FROM main_journals; SELECT * FROM index_ing;',
             );
 
             return res.status(200).json({
                 status: true,
-                data: rows,
+                data: {journal: rows[0], index: rows[1]},
             });
 
         } catch (error) {

@@ -1,0 +1,15 @@
+meta {
+  name: readOne
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{urlHeadCore}}/manuscript/readOne?manu_id=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  manu_id: 1
+}

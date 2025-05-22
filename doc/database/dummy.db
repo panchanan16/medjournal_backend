@@ -299,6 +299,30 @@ logo_journal
 
 
 
+-- article submission --------
+
+status
+pay-status
+User
+MRN_number
+email
+manuscript_title
+abstract
+keywords
+article_file
+acceptance _letter
+invoice
+additional_file
+editorial_comment
+published_link
+isReminder
+submitted_on
+updated_on
+
+
+
+
+
 
 
 

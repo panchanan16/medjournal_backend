@@ -1,0 +1,25 @@
+meta {
+  name: update
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{urlHeadCore}}/slider/update?slider_id=2
+  body: json
+  auth: inherit
+}
+
+params:query {
+  slider_id: 2
+}
+
+body:json {
+  {
+    "slide_title": "This is second slide",
+    "slider_desc": "Discover amazing features and offers.",
+    "slider_link": "https://example.com/promo",
+    "slider_img": "",
+    "slider_img_link" : "slider_img"
+  }
+}
