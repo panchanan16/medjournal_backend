@@ -38,11 +38,12 @@ class PeerReviewContollers {
      */
     static async update(req, res) {
         try {
-            const { id, title, content } = req.body;
+            const { prp_id } = req.query
+            const { title, content } = req.body;
 
             const [result] = await pool.query(
                 'UPDATE review_process SET title = ?, content = ? WHERE prp_id = ?',
-                [title, content, id]
+                [title, content, prp_id]
             );
 
             if (result.affectedRows === 0) {
@@ -56,7 +57,7 @@ class PeerReviewContollers {
                 status: true,
                 message: 'Review process updated successfully',
                 data: {
-                    prp_id: parseInt(id),
+                    prp_id: parseInt(prp_id),
                     title,
                     content
                 }

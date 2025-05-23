@@ -1,15 +1,15 @@
 meta {
-  name: getOne
+  name: findOne
   type: http
   seq: 2
 }
 
 get {
-  url: {{urlHeadEntity}}/reviewer/readOne?r_id=1
+  url: {{urlHeadEntity}}/reffer/readOne?ref_id=1
   body: none
   auth: inherit
 }
 
 params:query {
-  r_id: 1
+  ref_id: 1
 }

@@ -11,6 +11,7 @@ const newsAnnouncementController = require('@/controllers/core/newsAnnouncement'
 const headerController = require('@/controllers/core/headerController')
 const manuscriptController = require('@/controllers/core/manuscriptController')
 const sliderControllers = require('@/controllers/core/sliderController')
+const corevolumeControllers = require('@/controllers/core/volumeController')
 
 // Editor Board API ----
 coreRouter.post('/editorBoard/create', uploadSingleFile('editor_img', 'editorBoard'), editorBoardController.create)
@@ -60,6 +61,12 @@ coreRouter.post('/slider/create', uploadMultipleFields([{ name: 'slider_img', ma
 coreRouter.put('/slider/update', uploadMultipleFields([{ name: 'slider_img', maxCount: 1 }], 'slider'), sliderControllers.update)
 coreRouter.get('/slider/readAll', sliderControllers.findAll)
 coreRouter.get('/slider/readOne', sliderControllers.findOne)
+
+
+
+// Volume Controllers --------
+coreRouter.post('/volume/create', uploadMultipleFields([{ name: 'volume_img', maxCount: 1 }], 'volume'), corevolumeControllers.create)
+coreRouter.put('/volume/update', uploadMultipleFields([{ name: 'volume_img', maxCount: 1 }], 'volume'), corevolumeControllers.update)
 
 
 module.exports = coreRouter

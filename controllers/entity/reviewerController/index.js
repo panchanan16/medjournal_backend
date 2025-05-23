@@ -56,7 +56,7 @@ class ReviewerController {
   // Update an existing reviewer
   static async update(req, res) {
     try {
-      const { r_id } = req.params;
+      const { r_id } = req.query;
       const { rev_id, month, year, name, country, university, biography } = req.body;
 
       // Check if reviewer exists

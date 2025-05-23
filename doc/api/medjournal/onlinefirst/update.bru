@@ -1,0 +1,22 @@
+meta {
+  name: update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{urlHeadEntity}}/onlinefirst/update?of_id=2
+  body: json
+  auth: inherit
+}
+
+params:query {
+  of_id: 2
+}
+
+body:json {
+  {
+    "title": "Publish Ahead of Print",
+    "content": "<p>The articles on this page have been copyedited and reviewed and approved by the authors. They have not yet been scheduled for a specific issue. For published content, please visit Archive.</p>"
+  }
+}

@@ -5,7 +5,23 @@ meta {
 }
 
 put {
-  url: 
-  body: none
+  url: {{urlHeadEntity}}/reviewer/update?r_id=1
+  body: json
   auth: inherit
+}
+
+params:query {
+  r_id: 1
+}
+
+body:json {
+  {
+    "rev_id": 1,
+    "month": "May",
+    "year": 2025,
+    "name": "Dr. Smith Nath",
+    "country": "United States",
+    "university": "Harvard University",
+    "biography": "<p>Dr. Jane Smith is a renowned researcher in the field of Artificial Intelligence with over 20 years of academic and industrial experience.</p>"
+  }
 }

@@ -15,7 +15,7 @@ class OnlineFirstController {
 
             return res.status(201).json({
                 status: true,
-                message: 'Online first entry created successfully',
+                message: 'Online Submission entry created successfully',
                 data: {
                     of_id: result.insertId,
                     title,
@@ -37,7 +37,7 @@ class OnlineFirstController {
      */
     static async update(req, res) {
         try {
-            const { of_id } = req.params;
+            const { of_id } = req.query;
             const { title, content } = req.body;
 
             const [rows] = await pool.execute(
@@ -60,7 +60,7 @@ class OnlineFirstController {
 
             return res.status(200).json({
                 status: true,
-                message: 'Online first entry updated successfully',
+                message: 'Online Submission entry updated successfully',
                 data: {
                     of_id: parseInt(of_id),
                     title,

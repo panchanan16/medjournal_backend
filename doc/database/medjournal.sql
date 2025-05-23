@@ -373,6 +373,26 @@ CREATE TABLE sliders (
 
 
 
+--- Submit Multimedia Table ----
+
+CREATE TABLE multimedia_process (
+    mul_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content MEDIUMTEXT NOT NULL
+);
+
+
+
+--- Refference style Table ----
+
+CREATE TABLE reffer_style (
+    ref_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content MEDIUMTEXT NOT NULL
+);
+
+
+
 
 
 ALTER TABLE article_main ADD COLUMN isInPress BOOLEAN DEFAULT 0 AFTER isOpenaccess;
