@@ -1,0 +1,22 @@
+meta {
+  name: update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{urlHeadEntity}}/supplement/update?ss_id=1
+  body: json
+  auth: inherit
+}
+
+params:query {
+  ss_id: 1
+}
+
+body:json {
+  {
+    "title": "this supplement section",
+    "content": "<p>hcbi irhiirifur irhihtihgit idhvigf</p>"
+  }
+}

@@ -275,7 +275,7 @@ class ArticleController {
 
       // Get paginated data
       const [rows] = await pool.execute(
-        `SELECT am.ariticle_id, am.title, am.url, am.published_date, am.isInHome, am.articleType, am.abstract, am.keywords FROM article_main am ${whereSQL} ORDER BY ${sortBy} ${sortOrder === 'DESC' ? 'DESC' : 'ASC'} LIMIT ${parseInt(limit)} OFFSET ${offset};`,
+        `SELECT am.ariticle_id, am.title, am.url, am.published_date, am.isInHome, am.articleType, am.abstract, am.keywords, am.pdflink, am.published_date FROM article_main am ${whereSQL} ORDER BY ${sortBy} ${sortOrder === 'DESC' ? 'DESC' : 'ASC'} LIMIT ${parseInt(limit)} OFFSET ${offset};`,
         [...whereParams]
       );
 

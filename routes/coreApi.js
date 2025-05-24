@@ -12,6 +12,7 @@ const headerController = require('@/controllers/core/headerController')
 const manuscriptController = require('@/controllers/core/manuscriptController')
 const sliderControllers = require('@/controllers/core/sliderController')
 const corevolumeControllers = require('@/controllers/core/volumeController')
+const citationControllers = require('@/controllers/core/citationController')
 
 // Editor Board API ----
 coreRouter.post('/editorBoard/create', uploadSingleFile('editor_img', 'editorBoard'), editorBoardController.create)
@@ -67,6 +68,11 @@ coreRouter.get('/slider/readOne', sliderControllers.findOne)
 // Volume Controllers --------
 coreRouter.post('/volume/create', uploadMultipleFields([{ name: 'volume_img', maxCount: 1 }], 'volume'), corevolumeControllers.create)
 coreRouter.put('/volume/update', uploadMultipleFields([{ name: 'volume_img', maxCount: 1 }], 'volume'), corevolumeControllers.update)
+
+
+
+// Citation Controllers -----
+coreRouter.put('/citation/update', citationControllers.generateCitation)
 
 
 module.exports = coreRouter

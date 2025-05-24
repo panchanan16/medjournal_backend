@@ -1,0 +1,15 @@
+meta {
+  name: generate citation
+  type: http
+  seq: 7
+}
+
+put {
+  url: {{urlHeadCore}}/citation/update?ariticle_id=21
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ariticle_id: 21
+}

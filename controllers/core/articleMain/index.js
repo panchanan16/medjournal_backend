@@ -211,7 +211,6 @@ class ArticleController {
   static async findOne(req, res) {
     try {
       const { article_id } = req.query;
-      console.log(article_id)
       const [rows] = await pool.execute(
         'SELECT * FROM article_main WHERE ariticle_id = ?',
         [article_id]

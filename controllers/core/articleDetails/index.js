@@ -19,6 +19,7 @@ exports.getArticleById = async (req, res) => {
         am.abstract,
         am.Downloads,
         am.Views,
+        am.pdflink,
         aa.authors_prefix,
         aa.authors_name,
         aa.authors_middlename,
@@ -53,6 +54,7 @@ exports.getArticleById = async (req, res) => {
       id: rows[0].id.toString(),
       title: rows[0].title,
       abstract: rows[0].abstract,
+      pdflink: rows[0].pdflink,
       authors: [],
       sections: [],
       metrics: {
@@ -73,6 +75,7 @@ exports.getArticleById = async (req, res) => {
 
         const authorData = {
           name: fullName,
+          afflication: row.afflication
         };
 
         articleData.authors.push(authorData);
