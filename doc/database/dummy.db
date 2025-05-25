@@ -321,6 +321,35 @@ updated_on
 
 
 
+--------- Slider Image -----------
+
+slider_id
+slide_title
+slider_desc
+slider_link
+slider_img
+
+
+-- featureblog ----
+
+blog_id
+blog_title
+blog_thumbnail
+blog_details
+posted_on
+
+
+testimonials---------
+
+test_id
+User
+designation
+user_img
+user_comment
+posted_on
+
+
+
 
 
 

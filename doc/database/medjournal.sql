@@ -354,7 +354,7 @@ CREATE TABLE manuscripts (
     acceptance_letter VARCHAR(255) DEFAULT NULL,
     invoice VARCHAR(255) DEFAULT NULL,
     additional_file VARCHAR(255) DEFAULT NULL,
-    editorial_comment TEXT DEFAULT '',
+    editorial_comment TEXT DEFAULT NULL,
     published_link VARCHAR(255) DEFAULT '',
     isReminder BOOLEAN DEFAULT 0,
     submitted_on VARCHAR(100) DEFAULT NULL,
@@ -411,6 +411,21 @@ CREATE TABLE featuredblogs (
 
 
 
+------ Testinmonials ---------
+
+CREATE TABLE testimonials (
+    test_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_name VARCHAR(100) NOT NULL,
+    designation VARCHAR(100) DEFAULT NULL,
+    university VARCHAR(200) DEFAULT NULL,
+    user_img VARCHAR(255) DEFAULT NULL,
+    user_comment TEXT NOT NULL,
+    posted_on VARCHAR(200) DEFAULT NULL
+);
+
+
+
+
 
 
 
@@ -418,9 +433,8 @@ ALTER TABLE article_main ADD COLUMN isMostRead BOOLEAN DEFAULT 0 AFTER isInPress
 
 ALTER TABLE article_main ADD COLUMN isNihFunded BOOLEAN DEFAULT 0 AFTER isMostRead; -- updated in server on 25 may
 
-ALTER TABLE article_main ADD COLUMN COIformlink VARCHAR(400) DEFAULT '' AFTER xmllink;
+ALTER TABLE article_main ADD COLUMN COIformlink VARCHAR(400) DEFAULT '' AFTER xmllink; -- updated in server on 25 may at 12.01 am
 
-ALTER TABLE featuredblogs ADD COLUMN blog_url VARCHAR(300) DEFAULT NULL AFTER blog_title; 
 
 
 

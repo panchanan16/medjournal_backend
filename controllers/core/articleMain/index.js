@@ -333,14 +333,14 @@ class ArticleController {
   static async getArticlesWithVolumeId(req, res) {
     const { volId } = req.query
     const [vols] = await pool.execute(
-      `SELECT * FROM vol_issue WHERE volume_id = ?`, [volId])
+      `SELECT vol_issue.*, volume.volume_name, volume.volume_year FROM vol_issue INNER JOIN volume ON volume.volume_id = vol_issue.volume_id WHERE vol_issue.volume_id = ?`, [volId])
 
     if (vols.length == 0) {
       return res.status(404).json({ status: false, data: null, msg: "No article Found!" })
     }
     const placeholders = vols.map(() => '?').join(',');
     const params = vols.map((el) => el.is_id)
-    const query = `SELECT am.articleType, am.issueNo, am.title, am.ariticle_id FROM article_main am WHERE issueNo IN (${placeholders})`;
+    const query = `SELECT am.articleType, am.issueNo, am.title, am.url, am.pdflink, am.published_date, am.ariticle_id FROM article_main am WHERE issueNo IN (${placeholders})`;
     const [articles] = await pool.execute(
       query, params)
     return res.status(200).json({ status: true, data: { vols, articles } })
