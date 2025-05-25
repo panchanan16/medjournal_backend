@@ -1,0 +1,15 @@
+meta {
+  name: get citation by iD
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{urlHeadCore}}/citation/readOne?ariticle_id=21
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ariticle_id: 21
+}

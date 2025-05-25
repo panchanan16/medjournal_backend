@@ -1,0 +1,15 @@
+meta {
+  name: findOne
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{urlHeadCore}}/blog/readOne?blog_id=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  blog_id: 1
+}

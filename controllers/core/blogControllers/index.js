@@ -6,13 +6,13 @@ class BlogControllers {
     // Create a new blog
     static async create(req, res) {
         try {
-            const { blog_title, blog_thumbnail_link, blog_details, posted_on } = req.body;
+            const { blog_title, blog_url, blog_thumbnail_link, blog_details, posted_on } = req.body;
 
             const blogThumbnail = req.file || req.files && req.filePaths['blog_thumbnail'] ? req.filePaths['blog_thumbnail'][0] : blog_thumbnail_link
 
             const [result] = await pool.execute(
-                'INSERT INTO featuredblogs (blog_title, blog_thumbnail, blog_details, posted_on) VALUES (?, ?, ?, ?)',
-                [blog_title, blogThumbnail, blog_details, posted_on]
+                'INSERT INTO featuredblogs (blog_title, blog_url, blog_thumbnail, blog_details, posted_on) VALUES (?, ?, ?, ?, ?)',
+                [blog_title, blog_url, blogThumbnail, blog_details, posted_on]
             );
 
             res.status(201).json({
@@ -39,13 +39,13 @@ class BlogControllers {
     static async update(req, res) {
         try {
             const { blog_id } = req.query;
-            const { blog_title, blog_thumbnail_link, blog_details, posted_on } = req.body;
+            const { blog_title, blog_url, blog_thumbnail_link, blog_details, posted_on } = req.body;
 
                 const blogThumbnail = req.file || req.files && req.filePaths['blog_thumbnail'] ? req.filePaths['blog_thumbnail'][0] : blog_thumbnail_link
 
             const [result] = await pool.execute(
-                'UPDATE featuredblogs SET blog_title = ?, blog_thumbnail = ?, blog_details = ?, posted_on = ? WHERE blog_id = ?',
-                [blog_title, blogThumbnail, blog_details, posted_on, blog_id]
+                'UPDATE featuredblogs SET blog_title = ?, blog_url = ?, blog_thumbnail = ?, blog_details = ?, posted_on = ? WHERE blog_id = ?',
+                [blog_title, blog_url, blogThumbnail, blog_details, posted_on, blog_id]
             );
 
             if (result.affectedRows === 0) {
@@ -137,24 +137,34 @@ class BlogControllers {
     }
 
     // Find all blogs
-    static async findAll(req, res) {
-        try {
-            const [rows] = await pool.execute('SELECT * FROM featuredblogs ORDER BY blog_id DESC');
+   static async findAll(req, res) {
+    try {
+        const { limit } = req.query;
 
-            res.status(200).json({
-                status: true,
-                message: 'Blogs retrieved successfully',
-                data: rows,
-                count: rows.length
-            });
-        } catch (error) {
-            res.status(500).json({
-                status: false,
-                message: 'Error retrieving blogs',
-                error: error.message
-            });
+        let query = 'SELECT * FROM featuredblogs ORDER BY blog_id DESC';
+        let params = [];
+
+        if (limit) {
+            query += ' LIMIT ?';
+            params.push(Number(limit));
         }
+
+        const [rows] = await pool.query(query, params);
+
+        res.status(200).json({
+            status: true,
+            message: 'Blogs retrieved successfully',
+            data: rows
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: false,
+            message: 'Error retrieving blogs',
+            error: error
+        });
     }
+}
+
 }
 
 module.exports = BlogControllers;

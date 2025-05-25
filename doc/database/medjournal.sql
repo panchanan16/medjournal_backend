@@ -343,6 +343,8 @@ CREATE TABLE manuscripts (
     status VARCHAR(150) DEFAULT NULL,
     pay_status VARCHAR(150) DEFAULT NULL,
     user INT NOT NULL,
+    user_name VARCHAR(200) DEFAULT NULL,
+    user_number VARCHAR(20) DEFAULT NULL,
     MRN_number VARCHAR(150) DEFAULT NULL,
     email VARCHAR(100) DEFAULT NULL,
     manuscript_title TEXT DEFAULT NULL,
@@ -352,9 +354,9 @@ CREATE TABLE manuscripts (
     acceptance_letter VARCHAR(255) DEFAULT NULL,
     invoice VARCHAR(255) DEFAULT NULL,
     additional_file VARCHAR(255) DEFAULT NULL,
-    editorial_comment TEXT DEFAULT NULL,
-    published_link VARCHAR(255) DEFAULT NULL,
-    isReminder BOOLEAN DEFAULT NULL,
+    editorial_comment TEXT DEFAULT '',
+    published_link VARCHAR(255) DEFAULT '',
+    isReminder BOOLEAN DEFAULT 0,
     submitted_on VARCHAR(100) DEFAULT NULL,
     updated_on VARCHAR(100) DEFAULT NULL
 );
@@ -401,6 +403,7 @@ CREATE TABLE reffer_style (
 CREATE TABLE featuredblogs (
   blog_id INT AUTO_INCREMENT PRIMARY KEY,
   blog_title VARCHAR(255) NOT NULL,
+  blog_url VARCHAR(300) DEFAULT NULL,
   blog_thumbnail VARCHAR(255) DEFAULT NULL,
   blog_details MEDIUMTEXT NOT NULL,
   posted_on VARCHAR(200) DEFAULT NULL
@@ -411,10 +414,13 @@ CREATE TABLE featuredblogs (
 
 
 
-ALTER TABLE article_main ADD COLUMN isMostRead BOOLEAN DEFAULT 0 AFTER isInPress; 
+ALTER TABLE article_main ADD COLUMN isMostRead BOOLEAN DEFAULT 0 AFTER isInPress; -- updated in server on 25 may
 
+ALTER TABLE article_main ADD COLUMN isNihFunded BOOLEAN DEFAULT 0 AFTER isMostRead; -- updated in server on 25 may
 
-ALTER TABLE article_main ADD COLUMN isNihFunded BOOLEAN DEFAULT 0 AFTER isMostRead; 
+ALTER TABLE article_main ADD COLUMN COIformlink VARCHAR(400) DEFAULT '' AFTER xmllink;
+
+ALTER TABLE featuredblogs ADD COLUMN blog_url VARCHAR(300) DEFAULT NULL AFTER blog_title; 
 
 
 

@@ -1,0 +1,15 @@
+meta {
+  name: findAll
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{urlHeadCore}}/blog/readAll?limit=10
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 10
+}

@@ -8,6 +8,8 @@ class ManuscriptControllers {
                 status,
                 pay_status,
                 user,
+                user_name,
+                user_number,
                 MRN_number,
                 email,
                 manuscript_title,
@@ -29,18 +31,25 @@ class ManuscriptControllers {
             const InvoiceFile = req.file || req.files && req.filePaths['invoice'] ? req.filePaths['invoice'][0] : invoice_link
             const AdditionalFile = req.file || req.files && req.filePaths['additional_file'] ? req.filePaths['additional_file'][0] : additional_file_link
 
+            const [rows] = await pool.execute('SELECT MAX(manu_id) AS maxId FROM manuscripts');
+            const lastId = rows[0].maxId || 0;
+            const nextId = lastId + 1;
+            const MRN = `MRN-${String(nextId).padStart(6, '0')}`
+
             const [result] = await pool.query(
                 `INSERT INTO manuscripts 
-        (status, pay_status, user, MRN_number, email, manuscript_title, 
+        (status, pay_status, user, user_name, user_number, MRN_number, email, manuscript_title, 
         abstract, keywords, article_file, acceptance_letter, invoice, 
         additional_file, editorial_comment, published_link, isReminder, 
         submitted_on, updated_on) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
                     status,
                     pay_status,
                     user,
-                    MRN_number,
+                    user_name,
+                    user_number,
+                    MRN,
                     email,
                     manuscript_title,
                     abstract,
@@ -51,9 +60,9 @@ class ManuscriptControllers {
                     AdditionalFile,
                     editorial_comment,
                     published_link,
-                    isReminder,
-                    submitted_on || new Date().toISOString(),
-                    updated_on || new Date().toISOString()
+                    isReminder || 0,
+                    submitted_on || new Date(),
+                    updated_on || new Date()
                 ]
             );
 
@@ -79,6 +88,9 @@ class ManuscriptControllers {
         try {
             const {
                 user,
+                user_name,
+                user_number,
+                email,
                 manuscript_title,
                 abstract,
                 keywords,
@@ -88,19 +100,32 @@ class ManuscriptControllers {
 
             const articleFile = req.file || req.files && req.filePaths['article_file'] ? req.filePaths['article_file'][0] : article_file_link
 
+            const [rows] = await pool.query('SELECT MAX(manu_id) AS maxId FROM manuscripts');
+            const lastId = rows[0].maxId || 0;
+            const nextId = lastId + 1;
+            const MRN = `MRN-${String(nextId).padStart(6, '0')}`
+
+            console.log(MRN)
+
             const [result] = await pool.query(
                 `INSERT INTO manuscripts 
-        (user, manuscript_title, 
+        (status, pay_status, user, user_name, user_number, MRN_number, email, manuscript_title, 
         abstract, keywords, article_file, 
         submitted_on) 
-        VALUES (?, ?, ?, ?, ?, ?)`,
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
+                    "Pending",
+                    "Unpaid",
                     user,
+                    user_name,
+                    user_number,
+                    MRN,
+                    email,
                     manuscript_title,
                     abstract,
                     keywords,
                     articleFile,
-                    submitted_on || new Date().toISOString(),
+                    submitted_on || new Date(),
                 ]
             );
 
@@ -177,6 +202,8 @@ class ManuscriptControllers {
                 status,
                 pay_status,
                 user,
+                user_name,
+                user_number,
                 MRN_number,
                 email,
                 manuscript_title,
@@ -214,6 +241,8 @@ class ManuscriptControllers {
         status = IFNULL(?, status),
         pay_status = IFNULL(?, pay_status),
         user = IFNULL(?, user),
+        user_name = IFNULL(?, user_name), 
+        user_number = IFNULL(?, user_number),
         MRN_number = IFNULL(?, MRN_number),
         email = IFNULL(?, email),
         manuscript_title = IFNULL(?, manuscript_title),
@@ -233,6 +262,8 @@ class ManuscriptControllers {
                     status,
                     pay_status,
                     user,
+                    user_name,
+                    user_number,
                     MRN_number,
                     email,
                     manuscript_title,
@@ -244,7 +275,7 @@ class ManuscriptControllers {
                     AdditionalFile,
                     editorial_comment,
                     published_link,
-                    isReminder,
+                    isReminder || 0,
                     submitted_on,
                     updated_on,
                     manu_id

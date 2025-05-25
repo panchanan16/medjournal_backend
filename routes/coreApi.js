@@ -20,9 +20,9 @@ coreRouter.post('/editorBoard/create', uploadSingleFile('editor_img', 'editorBoa
 coreRouter.put('/editorBoard/update', uploadSingleFile('editor_img', 'editorBoard'), editorBoardController.update)
 
 // Article main API ----
-coreRouter.post('/articleMain/create', uploadMultipleFields([{ name: 'pdfFile', maxCount: 1 }, { name: 'xmlFile', maxCount: 1 }], 'testarticle'), articleMainController.create)
+coreRouter.post('/articleMain/create', uploadMultipleFields([{ name: 'pdfFile', maxCount: 1 }, { name: 'xmlFile', maxCount: 1 }, { name: 'coiFile', maxCount: 1 }], 'testarticle'), articleMainController.create)
 coreRouter.get('/getByVolumeId/readAll', articleMainController.getArticlesWithVolumeId)
-coreRouter.put('/articleMain/update', uploadMultipleFields([{ name: 'pdfFile', maxCount: 1 }, { name: 'xmlFile', maxCount: 1 }], 'testarticle'),  articleMainController.update)
+coreRouter.put('/articleMain/update', uploadMultipleFields([{ name: 'pdfFile', maxCount: 1 }, { name: 'xmlFile', maxCount: 1 }, { name: 'coiFile', maxCount: 1 }], 'testarticle'),  articleMainController.update)
 
 // Article full version ----
 coreRouter.get('/articlefull/readOne/:id', articleFullController.getArticleById)
@@ -74,13 +74,15 @@ coreRouter.put('/volume/update', uploadMultipleFields([{ name: 'volume_img', max
 
 // Citation Controllers -----
 coreRouter.put('/citation/update', citationControllers.generateCitation)
+coreRouter.get('/citation/readOne', citationControllers.getCitationById)
 
 
 // Blogs Controllers ------
 coreRouter.post('/blog/create', uploadMultipleFields([{ name: 'blog_thumbnail', maxCount: 1 }], 'blog'), blogControllers.create)
 coreRouter.put('/blog/update', uploadMultipleFields([{ name: 'blog_thumbnail', maxCount: 1 }], 'blog'), blogControllers.update)
-coreRouter.get('/blog/readAll', uploadMultipleFields([{ name: 'blog_thumbnail', maxCount: 1 }], 'blog'), blogControllers.findAll)
-coreRouter.get('/blog/readOne', uploadMultipleFields([{ name: 'blog_thumbnail', maxCount: 1 }], 'blog'), blogControllers.findOne)
+coreRouter.get('/blog/readAll', blogControllers.findAll)
+coreRouter.get('/blog/readOne', blogControllers.findOne)
+coreRouter.delete('/blog/remove', blogControllers.delete)
 
 
 

@@ -1,0 +1,15 @@
+meta {
+  name: remove
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{urlHeadCore}}/blog/remove?blog_id=3
+  body: none
+  auth: inherit
+}
+
+params:query {
+  blog_id: 3
+}

@@ -34,6 +34,7 @@ class ArticleController {
         Views,
         pdflink,
         xmllink,
+        COIformlink,
         citation_apa,
         citation_mla,
         citation_chicago,
@@ -43,15 +44,16 @@ class ArticleController {
 
       const pdf = req.file || req.files && req.filePaths['pdfFile'] ? req.filePaths['pdfFile'][0] : pdflink;
       const xml = req.file || req.files && req.filePaths['xmlFile'] ? req.filePaths['xmlFile'][0] : xmllink;
+      const COIform = req.file || req.files && req.filePaths['coiFile'] ? req.filePaths['coiFile'][0] : COIformlink;
 
       const [result] = await pool.execute(
         `INSERT INTO article_main (
           isInHome, isOpenaccess, isInPress, isMostRead, isNihFunded, issueNo, url, articleType, title, DOI, DOIlink,
           PMID, PMID_Link, abstract, page_from, page_to, keywords, how_to_cite,
           recieve_date, Revised_date, Accepted_date, published_date, available_date,
-          Downloads, Views, pdflink, xmllink, citation_apa, citation_mla,
+          Downloads, Views, pdflink, xmllink, COIformlink, citation_apa, citation_mla,
           citation_chicago, citation_harvard, citation_vancouver
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           isInHome,
           isOpenaccess,
@@ -80,6 +82,7 @@ class ArticleController {
           Views || 0,
           pdf,
           xml,
+          COIform,
           citation_apa,
           citation_mla,
           citation_chicago,
@@ -118,7 +121,7 @@ class ArticleController {
 
       // Create dynamic query based on provided fields
       const key = Object.keys(updateData);
-      const fields = key.filter(item => item !== "xmlFile" && item !== "pdfFile" && item !== "isPDF" && item !== "isXml");
+      const fields = key.filter(item => item !== "xmlFile" && item !== "pdfFile" && item !== "coiFile" && item !== "isPDF" && item !== "isXml");
 
       if (fields.length === 0) {
         return res.status(400).json({
@@ -129,6 +132,7 @@ class ArticleController {
 
       const pdf = req.file || req.files && req.filePaths['pdfFile'] ? req.filePaths['pdfFile'][0] : updateData.pdflink;
       const xml = req.file || req.files && req.filePaths['xmlFile'] ? req.filePaths['xmlFile'][0] : updateData.xmllink;
+      const COIform = req.file || req.files && req.filePaths['coiFile'] ? req.filePaths['coiFile'][0] : updateData.COIformlink;
 
       const setClause = fields.map(field => `${field} = ?`).join(', ');
       const values = fields.map(field => {
@@ -136,6 +140,8 @@ class ArticleController {
           return pdf;
         } else if (field == 'xmllink') {
           return xml;
+        } else if (field == 'COIformlink') {
+          return COIform;
         } else {
           return updateData[field]
         }

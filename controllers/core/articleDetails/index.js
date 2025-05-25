@@ -21,6 +21,7 @@ exports.getArticleById = async (req, res) => {
         am.Views,
         am.pdflink,
         am.xmllink,
+        am.COIformlink,
         aa.authors_prefix,
         aa.authors_name,
         aa.authors_middlename,
@@ -57,6 +58,7 @@ exports.getArticleById = async (req, res) => {
       abstract: rows[0].abstract,
       pdflink: rows[0].pdflink,
       xmllink: rows[0].xmllink,
+      COIformlink: rows[0].COIformlink,
       authors: [],
       sections: [],
       metrics: {
