@@ -13,6 +13,7 @@ const manuscriptController = require('@/controllers/core/manuscriptController')
 const sliderControllers = require('@/controllers/core/sliderController')
 const corevolumeControllers = require('@/controllers/core/volumeController')
 const citationControllers = require('@/controllers/core/citationController')
+const blogControllers = require('@/controllers/core/blogControllers')
 
 // Editor Board API ----
 coreRouter.post('/editorBoard/create', uploadSingleFile('editor_img', 'editorBoard'), editorBoardController.create)
@@ -73,6 +74,15 @@ coreRouter.put('/volume/update', uploadMultipleFields([{ name: 'volume_img', max
 
 // Citation Controllers -----
 coreRouter.put('/citation/update', citationControllers.generateCitation)
+
+
+// Blogs Controllers ------
+coreRouter.post('/blog/create', uploadMultipleFields([{ name: 'blog_thumbnail', maxCount: 1 }], 'blog'), blogControllers.create)
+coreRouter.put('/blog/update', uploadMultipleFields([{ name: 'blog_thumbnail', maxCount: 1 }], 'blog'), blogControllers.update)
+coreRouter.get('/blog/readAll', uploadMultipleFields([{ name: 'blog_thumbnail', maxCount: 1 }], 'blog'), blogControllers.findAll)
+coreRouter.get('/blog/readOne', uploadMultipleFields([{ name: 'blog_thumbnail', maxCount: 1 }], 'blog'), blogControllers.findOne)
+
+
 
 
 module.exports = coreRouter

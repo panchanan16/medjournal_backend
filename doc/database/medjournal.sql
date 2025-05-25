@@ -143,6 +143,8 @@ CREATE TABLE article_main (
     isInHome BOOLEAN,
     isOpenaccess BOOLEAN,
     isInPress BOOLEAN DEFAULT 0,
+    isMostRead BOOLEAN DEFAULT 0,
+    isNihFunded BOOLEAN DEFAULT 0,
     issueNo INT NOT NULL,
     url TEXT,
     articleType VARCHAR(100),
@@ -394,8 +396,26 @@ CREATE TABLE reffer_style (
 
 
 
+---- featuredBlogs table ---------
 
-ALTER TABLE article_main ADD COLUMN isInPress BOOLEAN DEFAULT 0 AFTER isOpenaccess;
+CREATE TABLE featuredblogs (
+  blog_id INT AUTO_INCREMENT PRIMARY KEY,
+  blog_title VARCHAR(255) NOT NULL,
+  blog_thumbnail VARCHAR(255) DEFAULT NULL,
+  blog_details MEDIUMTEXT NOT NULL,
+  posted_on VARCHAR(200) DEFAULT NULL
+);
+
+
+
+
+
+
+ALTER TABLE article_main ADD COLUMN isMostRead BOOLEAN DEFAULT 0 AFTER isInPress; 
+
+
+ALTER TABLE article_main ADD COLUMN isNihFunded BOOLEAN DEFAULT 0 AFTER isMostRead; 
+
 
 
 

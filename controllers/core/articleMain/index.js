@@ -9,6 +9,9 @@ class ArticleController {
       const {
         isInHome,
         isOpenaccess,
+        isInPress,
+        isMostRead,
+        isNihFunded,
         issueNo,
         url,
         articleType,
@@ -43,15 +46,18 @@ class ArticleController {
 
       const [result] = await pool.execute(
         `INSERT INTO article_main (
-          isInHome, isOpenaccess, issueNo, url, articleType, title, DOI, DOIlink,
+          isInHome, isOpenaccess, isInPress, isMostRead, isNihFunded, issueNo, url, articleType, title, DOI, DOIlink,
           PMID, PMID_Link, abstract, page_from, page_to, keywords, how_to_cite,
           recieve_date, Revised_date, Accepted_date, published_date, available_date,
           Downloads, Views, pdflink, xmllink, citation_apa, citation_mla,
           citation_chicago, citation_harvard, citation_vancouver
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           isInHome,
           isOpenaccess,
+          isInPress,
+          isMostRead,
+          isNihFunded,
           issueNo,
           url,
           articleType,
@@ -133,7 +139,7 @@ class ArticleController {
         } else {
           return updateData[field]
         }
-        
+
       });
 
       // Add article_id to values array
