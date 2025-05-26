@@ -426,6 +426,31 @@ CREATE TABLE testimonials (
 
 
 
+---- Auth users -------
+
+CREATE TABLE auth_users (
+    auth_id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(500) NOT NULL,
+    login_token VARCHAR(500) DEFAULT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    profile_img VARCHAR(255) DEFAULT '',
+    designation VARCHAR(200) DEFAULT NULL,
+    institution VARCHAR(300) DEFAULT NULL,
+    achievements TEXT DEFAULT NULL,
+    publications TEXT DEFAULT NULL,
+    isEmailVerified BOOLEAN DEFAULT FALSE,
+    isActive BOOLEAN DEFAULT TRUE,
+    user_role ENUM('admin', 'user') DEFAULT 'user',
+    last_login VARCHAR(300) DEFAULT NULL,
+    created_at VARCHAR(300) DEFAULT NULL
+);
+
+
+
+
+
 
 
 

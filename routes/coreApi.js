@@ -14,6 +14,7 @@ const sliderControllers = require('@/controllers/core/sliderController')
 const corevolumeControllers = require('@/controllers/core/volumeController')
 const citationControllers = require('@/controllers/core/citationController')
 const blogControllers = require('@/controllers/core/blogControllers')
+const testimonialControllers = require('@/controllers/core/testimonialController')
 
 // Editor Board API ----
 coreRouter.post('/editorBoard/create', uploadSingleFile('editor_img', 'editorBoard'), editorBoardController.create)
@@ -24,8 +25,9 @@ coreRouter.post('/articleMain/create', uploadMultipleFields([{ name: 'pdfFile', 
 coreRouter.get('/getByVolumeId/readAll', articleMainController.getArticlesWithVolumeId)
 coreRouter.put('/articleMain/update', uploadMultipleFields([{ name: 'pdfFile', maxCount: 1 }, { name: 'xmlFile', maxCount: 1 }, { name: 'coiFile', maxCount: 1 }], 'testarticle'),  articleMainController.update)
 
-// Article full version ----
+// Article full controller ----
 coreRouter.get('/articlefull/readOne/:id', articleFullController.getArticleById)
+coreRouter.get('/articlefull/increase', articleFullController.getIncreaseArticleViewAndDownloads)
 
 // Article Section GET api
 coreRouter.get('/articleSection/readOne', articleFullController.getArticleSectionById)
@@ -83,6 +85,14 @@ coreRouter.put('/blog/update', uploadMultipleFields([{ name: 'blog_thumbnail', m
 coreRouter.get('/blog/readAll', blogControllers.findAll)
 coreRouter.get('/blog/readOne', blogControllers.findOne)
 coreRouter.delete('/blog/remove', blogControllers.delete)
+
+
+// Testimonial Controllers --- testimonial
+coreRouter.post('/testimonial/create', uploadMultipleFields([{ name: 'user_img', maxCount: 1 }], 'testimonial'), testimonialControllers.create)
+coreRouter.put('/testimonial/update', uploadMultipleFields([{ name: 'user_img', maxCount: 1 }], 'testimonial'), testimonialControllers.update)
+coreRouter.get('/testimonial/readAll', testimonialControllers.findAll)
+coreRouter.get('/testimonial/readOne', testimonialControllers.findOne)
+coreRouter.delete('/testimonial/remove', testimonialControllers.delete)
 
 
 

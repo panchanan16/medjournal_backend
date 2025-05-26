@@ -350,6 +350,24 @@ posted_on
 
 
 
+--- user login ---
+
+email
+password
+first name
+last name
+profile_img
+designation 
+instution
+achivements
+publications
+isEmailVerified
+isActive
+user_role
+last_login
+
+
+
 
 
 

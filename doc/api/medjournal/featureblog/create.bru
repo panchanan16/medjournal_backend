@@ -6,6 +6,16 @@ meta {
 
 post {
   url: {{urlHeadCore}}/blog/create
-  body: none
+  body: json
   auth: inherit
+}
+
+body:json {
+  {
+    "blog_title": "10 Powerful Habits to Boost Your Productivity",
+    "blog_thumbnail": "",
+    "blog_details": "In this blog, we explore 10 powerful daily habits that can help you become more productive, focused, and balanced. From setting clear goals to practicing mindfulness, these strategies can transform your day.",
+    "posted_on": "2025-05-25 10:30 AM",
+    "blog_thumbnail_link": "https://example.com/images/productivity.jpg"
+  }
 }

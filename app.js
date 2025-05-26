@@ -6,8 +6,8 @@ const path = require('path')
 const cors = require('cors')
 
 const PORT = process.env.PORT || 3100;
-// require('dotenv').config({ path: '.env.development' });
-require('dotenv').config({ path: [`.env.${process.env.NODE_ENV}`] })
+require('dotenv').config({ path: '.env.development' });
+// require('dotenv').config({ path: [`.env.${process.env.NODE_ENV}`] })
 require('@/config/db.config');
 
 

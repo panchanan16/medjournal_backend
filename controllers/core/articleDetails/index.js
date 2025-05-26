@@ -184,3 +184,34 @@ exports.getArticleSectionById = async (req, res) => {
     res.status(500).json({ status: false, msg: 'Internal server error' });
   }
 };
+
+
+exports.getIncreaseArticleViewAndDownloads = async (req, res) => {
+  const { article_id, type } = req.query;
+
+  // Validate input
+  if (!article_id || !['views', 'downloads'].includes(type.toLowerCase())) {
+    return res.status(400).json({ message: "Invalid request" });
+  }
+
+  const column = type.toLowerCase() === 'views' ? 'Views' : 'Downloads';
+
+  const query = `
+    UPDATE article_main 
+    SET ${column} = ${column} + 1 
+    WHERE ariticle_id = ?
+  `;
+
+  try {
+    const [result] = await pool.execute(query, [article_id]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Article not found" });
+    }
+
+    res.status(200).json({ status: true, message: `${column} updated successfully.` });
+  } catch (err) {
+    console.error('Error updating article:', err);
+    res.status(500).json({status: false, message: "Server error to update views!" });
+  }
+}

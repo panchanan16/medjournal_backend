@@ -5,19 +5,19 @@ meta {
 }
 
 post {
-  url: 
+  url: {{urlHeadCore}}/testimonial/create
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "user_name": "Dr. Priya Sharma",
+    "user_name": "Dr. Prarthana Sharma",
     "designation": "Professor of Computer Science",
     "university": "Delhi University",
-    "user_img": "https://example.com/images/priya.jpg",
+    "user_img_link": "https://example.com/images/priya.jpg",
     "user_comment": "This platform has transformed the way I approach research and collaboration.",
-    "posted_on": "2025-05-25 10:00 AM"
+    "posted_on": "2025-05-25 10:00 AM",
+    "user_img": ""
   }
-  
 }

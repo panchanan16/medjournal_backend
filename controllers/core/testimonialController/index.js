@@ -1,17 +1,19 @@
 const pool = require('@/config/db.config')
 
 class TestimonialControllers {
-  
+
   // Create a new testimonial
   static async create(req, res) {
     try {
-      const { user_name, designation, university, user_img, user_comment, posted_on } = req.body;
-      
+      const { user_name, designation, university, user_img_link, user_comment, posted_on } = req.body;
+
+      const userImg = req.file || req.files && req.filePaths['user_img'] ? req.filePaths['user_img'][0] : user_img_link
+
       const [result] = await pool.execute(
         'INSERT INTO testimonials (user_name, designation, university, user_img, user_comment, posted_on) VALUES (?, ?, ?, ?, ?, ?)',
-        [user_name, designation, university, user_img, user_comment, posted_on]
+        [user_name, designation, university, userImg, user_comment, posted_on]
       );
-      
+
       res.json({
         status: true,
         message: 'Testimonial created successfully',
@@ -20,7 +22,7 @@ class TestimonialControllers {
           user_name,
           designation,
           university,
-          user_img,
+          userImg,
           user_comment,
           posted_on
         }
@@ -33,25 +35,27 @@ class TestimonialControllers {
       });
     }
   }
-  
+
   // Update an existing testimonial
   static async update(req, res) {
     try {
-      const { test_id } = req.params;
-      const { user_name, designation, university, user_img, user_comment, posted_on } = req.body;
-      
+      const { test_id } = req.query;
+      const { user_name, designation, university, user_img_link, user_comment, posted_on } = req.body;
+
+      const userImg = req.file || req.files && req.filePaths['user_img'] ? req.filePaths['user_img'][0] : user_img_link
+
       const [result] = await pool.execute(
         'UPDATE testimonials SET user_name = ?, designation = ?, university = ?, user_img = ?, user_comment = ?, posted_on = ? WHERE test_id = ?',
-        [user_name, designation, university, user_img, user_comment, posted_on, test_id]
+        [user_name, designation, university, userImg, user_comment, posted_on, test_id]
       );
-      
+
       if (result.affectedRows === 0) {
         return res.json({
           status: false,
           message: 'Testimonial not found'
         });
       }
-      
+
       res.json({
         status: true,
         message: 'Testimonial updated successfully',
@@ -60,7 +64,7 @@ class TestimonialControllers {
           user_name,
           designation,
           university,
-          user_img,
+          userImg,
           user_comment,
           posted_on
         }
@@ -73,24 +77,24 @@ class TestimonialControllers {
       });
     }
   }
-  
+
   // Delete a testimonial
   static async delete(req, res) {
     try {
-      const { test_id } = req.params;
-      
+      const { test_id } = req.query;
+
       const [result] = await pool.execute(
         'DELETE FROM testimonials WHERE test_id = ?',
         [test_id]
       );
-      
+
       if (result.affectedRows === 0) {
         return res.json({
           status: false,
           message: 'Testimonial not found'
         });
       }
-      
+
       res.json({
         status: true,
         message: 'Testimonial deleted successfully',
@@ -106,24 +110,24 @@ class TestimonialControllers {
       });
     }
   }
-  
+
   // Find one testimonial by ID
   static async findOne(req, res) {
     try {
-      const { test_id } = req.params;
-      
+      const { test_id } = req.query;
+
       const [rows] = await pool.execute(
         'SELECT * FROM testimonials WHERE test_id = ?',
         [test_id]
       );
-      
+
       if (rows.length === 0) {
         return res.json({
           status: false,
           message: 'Testimonial not found'
         });
       }
-      
+
       res.json({
         status: true,
         message: 'Testimonial retrieved successfully',
@@ -137,12 +141,12 @@ class TestimonialControllers {
       });
     }
   }
-  
+
   // Find all testimonials
   static async findAll(req, res) {
     try {
       const [rows] = await pool.execute('SELECT * FROM testimonials ORDER BY test_id DESC');
-      
+
       res.json({
         status: true,
         message: 'Testimonials retrieved successfully',
