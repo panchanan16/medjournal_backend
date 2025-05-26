@@ -340,6 +340,7 @@ CREATE TABLE review_guideline (
 
 CREATE TABLE manuscripts (
     manu_id INT AUTO_INCREMENT PRIMARY KEY,
+    manu_type VARCHAR(200) DEFAULT NULL,
     status VARCHAR(150) DEFAULT NULL,
     pay_status VARCHAR(150) DEFAULT NULL,
     user INT NOT NULL,
@@ -451,14 +452,13 @@ CREATE TABLE auth_users (
 
 
 
-
-
-
 ALTER TABLE article_main ADD COLUMN isMostRead BOOLEAN DEFAULT 0 AFTER isInPress; -- updated in server on 25 may
 
 ALTER TABLE article_main ADD COLUMN isNihFunded BOOLEAN DEFAULT 0 AFTER isMostRead; -- updated in server on 25 may
 
 ALTER TABLE article_main ADD COLUMN COIformlink VARCHAR(400) DEFAULT '' AFTER xmllink; -- updated in server on 25 may at 12.01 am
+
+ALTER TABLE manuscripts ADD COLUMN manu_type VARCHAR(200) DEFAULT NULL AFTER manu_id; 
 
 
 

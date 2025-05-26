@@ -7,7 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key';
 const JWT_EXPIRE = process.env.JWT_EXPIRE || '24h';
 
 class AuthController {
-  
+
   // Login user with JWT token generation
   static async login(req, res) {
     try {
@@ -77,14 +77,14 @@ class AuthController {
         message: 'Error during login',
         error: error.message
       });
-    } 
+    }
   }
 
   // Verify JWT token middleware
   static async verifyToken(req, res, next) {
     try {
       const authHeader = req.headers.authorization;
-      
+
       if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.json({
           status: false,
@@ -113,7 +113,7 @@ class AuthController {
         // Add user info to request object
         req.user = decoded;
         req.token = token;
-        
+
         if (next) next(); // Call next middleware if provided
         else {
           res.json({
@@ -140,7 +140,7 @@ class AuthController {
   static async logout(req, res) {
     try {
       const authHeader = req.headers.authorization;
-      
+
       if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.json({
           status: false,
@@ -166,14 +166,14 @@ class AuthController {
         message: 'Error during logout',
         error: error.message
       });
-    } 
+    }
   }
 
   // Get current user profile
   static async getProfile(req, res) {
     try {
       const authHeader = req.headers.authorization;
-      
+
       if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.json({
           status: false,
@@ -209,14 +209,14 @@ class AuthController {
         message: 'Error retrieving profile',
         error: error.message
       });
-    } 
+    }
   }
 
   // Refresh JWT token
   static async refreshToken(req, res) {
     try {
       const authHeader = req.headers.authorization;
-      
+
       if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.json({
           status: false,
@@ -257,9 +257,9 @@ class AuthController {
         message: 'Error refreshing token',
         error: error.message
       });
-    } 
+    }
   }
-  
+
   // Create new user
   static async create(req, res) {
     try {
@@ -269,7 +269,7 @@ class AuthController {
         login_token,
         first_name,
         last_name,
-        profile_img,
+        profile_img_link,
         designation,
         institution,
         achievements,
@@ -277,24 +277,26 @@ class AuthController {
         isEmailVerified,
         isActive,
         user_role,
-        last_login,
         created_at
       } = req.body;
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const profileImg = req.file || req.files && req.filePaths['profile_img'] ? req.filePaths['profile_img'][0] : profile_img_link
 
       const query = `
         INSERT INTO auth_users (
           email, password, login_token, first_name, last_name, 
           profile_img, designation, institution, achievements, 
-          publications, isEmailVerified, isActive, user_role, 
-          last_login, created_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          publications, isEmailVerified, isActive, user_role, created_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
 
       const values = [
-        email, password, login_token, first_name, last_name,
-        profile_img || '', designation, institution, achievements,
-        publications, isEmailVerified || false, isActive !== false,
-        user_role || 'user', last_login, created_at
+        email, hashedPassword, login_token, first_name, last_name,
+        profileImg || '', designation, institution, achievements,
+        publications, isEmailVerified, isActive,
+        user_role || 'user', created_at
       ];
 
       const [result] = await pool.execute(query, values);
@@ -316,17 +318,14 @@ class AuthController {
         message: 'Error creating user',
         error: error.message
       });
-    } 
+    }
   }
 
   // Update user
   static async update(req, res) {
     try {
-      const { auth_id } = req.params;
+      const { auth_id } = req.query;
       const updateData = req.body;
-
-      // Remove auth_id from updateData if present
-      delete updateData.auth_id;
 
       if (Object.keys(updateData).length === 0) {
         return res.json({
@@ -338,6 +337,8 @@ class AuthController {
       const fields = Object.keys(updateData).map(key => `${key} = ?`).join(', ');
       const values = Object.values(updateData);
       values.push(auth_id);
+
+      const profileImg = req.file || req.files && req.filePaths['profile_img'] ? req.filePaths['profile_img'][0] : updateData.profile_img_link
 
       const query = `UPDATE auth_users SET ${fields} WHERE auth_id = ?`;
 
@@ -365,7 +366,7 @@ class AuthController {
         message: 'Error updating user',
         error: error.message
       });
-    } 
+    }
   }
 
   // Delete user
@@ -397,7 +398,7 @@ class AuthController {
         message: 'Error deleting user',
         error: error.message
       });
-    } 
+    }
   }
 
   // Find one user by ID
@@ -432,18 +433,18 @@ class AuthController {
         message: 'Error finding user',
         error: error.message
       });
-    } 
+    }
   }
 
   // Find all users
   static async findAll(req, res) {
     try {
-      const { 
-        page = 1, 
-        limit = 10, 
-        user_role, 
-        isActive, 
-        isEmailVerified 
+      const {
+        page = 1,
+        limit = 10,
+        user_role,
+        isActive,
+        isEmailVerified
       } = req.query;
 
       let query = 'SELECT * FROM auth_users WHERE 1=1';
@@ -520,7 +521,7 @@ class AuthController {
         message: 'Error retrieving users',
         error: error.message
       });
-    } 
+    }
   }
 
   // Additional helper method to find user by email
@@ -555,7 +556,7 @@ class AuthController {
         message: 'Error finding user',
         error: error.message
       });
-    } 
+    }
   }
 
   // Method to update user status (activate/deactivate)
@@ -589,7 +590,7 @@ class AuthController {
         message: 'Error updating user status',
         error: error.message
       });
-    } 
+    }
   }
 }
 

@@ -65,6 +65,7 @@ coreRouter.post('/slider/create', uploadMultipleFields([{ name: 'slider_img', ma
 coreRouter.put('/slider/update', uploadMultipleFields([{ name: 'slider_img', maxCount: 1 }], 'slider'), sliderControllers.update)
 coreRouter.get('/slider/readAll', sliderControllers.findAll)
 coreRouter.get('/slider/readOne', sliderControllers.findOne)
+coreRouter.delete('/slider/remove', sliderControllers.delete)
 
 
 

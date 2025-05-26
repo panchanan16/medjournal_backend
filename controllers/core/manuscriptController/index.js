@@ -5,6 +5,7 @@ class ManuscriptControllers {
     static async create(req, res) {
         try {
             const {
+                manu_type,
                 status,
                 pay_status,
                 user,
@@ -34,16 +35,17 @@ class ManuscriptControllers {
             const [rows] = await pool.execute('SELECT MAX(manu_id) AS maxId FROM manuscripts');
             const lastId = rows[0].maxId || 0;
             const nextId = lastId + 1;
-            const MRN = `MRN-${String(nextId).padStart(6, '0')}`
+            const MRN = `EZCP-${String(nextId).padStart(6, '0')}`
 
             const [result] = await pool.query(
                 `INSERT INTO manuscripts 
-        (status, pay_status, user, user_name, user_number, MRN_number, email, manuscript_title, 
+        (manu_type, status, pay_status, user, user_name, user_number, MRN_number, email, manuscript_title, 
         abstract, keywords, article_file, acceptance_letter, invoice, 
         additional_file, editorial_comment, published_link, isReminder, 
         submitted_on, updated_on) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
+                    manu_type,
                     status,
                     pay_status,
                     user,
@@ -87,6 +89,7 @@ class ManuscriptControllers {
     static async createByUser(req, res) {
         try {
             const {
+                manu_type,
                 user,
                 user_name,
                 user_number,
@@ -103,17 +106,18 @@ class ManuscriptControllers {
             const [rows] = await pool.query('SELECT MAX(manu_id) AS maxId FROM manuscripts');
             const lastId = rows[0].maxId || 0;
             const nextId = lastId + 1;
-            const MRN = `MRN-${String(nextId).padStart(6, '0')}`
+            const MRN = `EZCP-${String(nextId).padStart(6, '0')}`
 
             console.log(MRN)
 
             const [result] = await pool.query(
                 `INSERT INTO manuscripts 
-        (status, pay_status, user, user_name, user_number, MRN_number, email, manuscript_title, 
+        (manu_type, status, pay_status, user, user_name, user_number, MRN_number, email, manuscript_title, 
         abstract, keywords, article_file, 
         submitted_on) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
+                    manu_type,
                     "Pending",
                     "Unpaid",
                     user,
@@ -199,6 +203,7 @@ class ManuscriptControllers {
         try {
             const { manu_id } = req.query;
             const {
+                manu_type,
                 status,
                 pay_status,
                 user,
@@ -237,7 +242,8 @@ class ManuscriptControllers {
             const updated_on = new Date().toISOString();
 
             const [result] = await pool.query(
-                `UPDATE manuscripts SET 
+                `UPDATE manuscripts SET
+        manu_type = IFNULL(?, manu_type), 
         status = IFNULL(?, status),
         pay_status = IFNULL(?, pay_status),
         user = IFNULL(?, user),
@@ -259,6 +265,7 @@ class ManuscriptControllers {
         updated_on = ?
         WHERE manu_id = ?`,
                 [
+                    manu_type,
                     status,
                     pay_status,
                     user,
