@@ -170,6 +170,28 @@ class ManuscriptControllers {
         }
     }
 
+
+    // Find all manuscripts By user id
+    static async findAllByUser(req, res) {
+        try {
+            const { user } = req.query
+            const [rows] = await pool.query('SELECT * FROM manuscripts WHERE user = ?', [user]);
+
+            res.status(200).json({
+                status: true,
+                message: 'Manuscripts retrieved successfully',
+                data: rows
+            });
+        } catch (error) {
+            console.error('Error fetching manuscripts:', error);
+            res.status(500).json({
+                status: false,
+                message: 'Failed to fetch manuscripts',
+                error: error.message
+            });
+        }
+    }
+
     // Find one manuscript by ID
     static async findOne(req, res) {
         try {

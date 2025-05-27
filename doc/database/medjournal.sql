@@ -359,7 +359,8 @@ CREATE TABLE manuscripts (
     published_link VARCHAR(255) DEFAULT '',
     isReminder BOOLEAN DEFAULT 0,
     submitted_on VARCHAR(100) DEFAULT NULL,
-    updated_on VARCHAR(100) DEFAULT NULL
+    updated_on VARCHAR(100) DEFAULT NULL,
+    FOREIGN KEY (user) REFERENCES auth_users(auth_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 
@@ -439,8 +440,8 @@ CREATE TABLE auth_users (
     profile_img VARCHAR(255) DEFAULT '',
     designation VARCHAR(200) DEFAULT NULL,
     institution VARCHAR(300) DEFAULT NULL,
-    achievements TEXT DEFAULT NULL,
-    publications TEXT DEFAULT NULL,
+    achievements MEDIUMTEXT DEFAULT NULL,
+    publications MEDIUMTEXT DEFAULT NULL,
     isEmailVerified BOOLEAN DEFAULT FALSE,
     isActive BOOLEAN DEFAULT TRUE,
     user_role ENUM('admin', 'user') DEFAULT 'user',
@@ -458,7 +459,7 @@ ALTER TABLE article_main ADD COLUMN isNihFunded BOOLEAN DEFAULT 0 AFTER isMostRe
 
 ALTER TABLE article_main ADD COLUMN COIformlink VARCHAR(400) DEFAULT '' AFTER xmllink; -- updated in server on 25 may at 12.01 am
 
-ALTER TABLE manuscripts ADD COLUMN manu_type VARCHAR(200) DEFAULT NULL AFTER manu_id; 
+ALTER TABLE manuscripts ADD COLUMN manu_type VARCHAR(200) DEFAULT NULL AFTER manu_id; -- updated in server on 27may at 12.46AM
 
 
 

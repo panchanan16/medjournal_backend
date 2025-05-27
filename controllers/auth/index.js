@@ -16,7 +16,8 @@ class AuthController {
       if (!email || !password) {
         return res.json({
           status: false,
-          message: 'Email and password are required'
+          message: 'Email and password are required',
+          data: { message: 'Invalid email or password' }
         });
       }
 
@@ -27,7 +28,8 @@ class AuthController {
       if (rows.length === 0) {
         return res.json({
           status: false,
-          message: 'Invalid email or password'
+          message: 'Invalid email or password',
+          data: { message: 'Invalid email or password' }
         });
       }
 
@@ -38,7 +40,8 @@ class AuthController {
       if (!isPasswordValid) {
         return res.json({
           status: false,
-          message: 'Invalid email or password'
+          message: 'Invalid email or password',
+          data: { message: 'Invalid email or password' }
         });
       }
 
@@ -97,36 +100,29 @@ class AuthController {
       // Verify JWT token
       const decoded = jwt.verify(token, JWT_SECRET);
 
-      // Optional: Check if token exists in database
 
-      try {
-        const query = 'SELECT auth_id, email, user_role, isActive FROM auth_users WHERE auth_id = ? AND login_token = ? AND isActive = true';
-        const [rows] = await pool.execute(query, [decoded.auth_id, token]);
+      const query = 'SELECT auth_id, email, user_role, isActive FROM auth_users WHERE auth_id = ? AND login_token = ? AND isActive = true';
+      const [rows] = await pool.execute(query, [decoded.auth_id, token]);
 
-        if (rows.length === 0) {
-          return res.json({
-            status: false,
-            message: 'Invalid or expired token'
-          });
-        }
-
-        // Add user info to request object
-        req.user = decoded;
-        req.token = token;
-
-        if (next) next(); // Call next middleware if provided
-        else {
-          res.json({
-            status: true,
-            message: 'Token is valid',
-            data: { user: decoded }
-          });
-        }
-
-      } finally {
-        pool.release();
+      if (rows.length === 0) {
+        return res.json({
+          status: false,
+          message: 'Invalid or expired token'
+        });
       }
 
+      // Add user info to request object
+      req.user = decoded;
+      req.token = token;
+
+      if (next) next(); // Call next middleware if provided
+      else {
+        res.json({
+          status: true,
+          message: 'Token is valid',
+          data: { user: decoded }
+        });
+      }
     } catch (error) {
       res.json({
         status: false,
@@ -157,7 +153,8 @@ class AuthController {
 
       res.json({
         status: true,
-        message: 'Logout successful'
+        message: 'Logout successful',
+        data: { logout: true }
       });
 
     } catch (error) {
@@ -266,7 +263,6 @@ class AuthController {
       const {
         email,
         password,
-        login_token,
         first_name,
         last_name,
         profile_img_link,
@@ -286,15 +282,15 @@ class AuthController {
 
       const query = `
         INSERT INTO auth_users (
-          email, password, login_token, first_name, last_name, 
+          email, password, first_name, last_name, 
           profile_img, designation, institution, achievements, 
           publications, isEmailVerified, isActive, user_role, created_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
 
       const values = [
-        email, hashedPassword, login_token, first_name, last_name,
-        profileImg || '', designation, institution, achievements,
+        email, hashedPassword, first_name, last_name,
+        profileImg, designation, institution, achievements,
         publications, isEmailVerified, isActive,
         user_role || 'user', created_at
       ];
@@ -308,11 +304,13 @@ class AuthController {
           auth_id: result.insertId,
           email,
           first_name,
-          last_name
+          last_name,
+          hashedPassword
         }
       });
 
     } catch (error) {
+      console.log(error)
       res.json({
         status: false,
         message: 'Error creating user',
@@ -325,46 +323,67 @@ class AuthController {
   static async update(req, res) {
     try {
       const { auth_id } = req.query;
-      const updateData = req.body;
+      const {
+        email,
+        first_name,
+        last_name,
+        designation,
+        institution,
+        achievements,
+        publications,
+        profile_img_link,
+        isEmailVerified,
+        isActive,
+        user_role,
+      } = req.body;
 
-      if (Object.keys(updateData).length === 0) {
-        return res.json({
+      const profileImg = req.file || req.files && req.filePaths['profile_img'] ? req.filePaths['profile_img'][0] : profile_img_link
+
+      // Validate required fields
+      if (!auth_id) {
+        return res.status(400).json({
           status: false,
-          message: 'No data provided for update'
+          message: 'User ID is required'
         });
       }
 
-      const fields = Object.keys(updateData).map(key => `${key} = ?`).join(', ');
-      const values = Object.values(updateData);
-      values.push(auth_id);
+      const query = `
+            UPDATE auth_users 
+            SET email = '${email}',
+                first_name = '${first_name}', 
+                last_name = '${last_name}', 
+                designation = '${designation}', 
+                institution = '${institution}', 
+                achievements = '${achievements}', 
+                publications = '${publications}', 
+                profile_img = '${profileImg}', 
+                isEmailVerified = ${isEmailVerified},
+                isActive = ${isActive},
+                user_role= '${user_role}'
+            WHERE auth_id = ${auth_id}
+        `;
 
-      const profileImg = req.file || req.files && req.filePaths['profile_img'] ? req.filePaths['profile_img'][0] : updateData.profile_img_link
 
-      const query = `UPDATE auth_users SET ${fields} WHERE auth_id = ?`;
 
-      const [result] = await pool.execute(query, values);
+      const [result] = await pool.query(query);
 
       if (result.affectedRows === 0) {
-        return res.json({
+        return res.status(404).json({
           status: false,
           message: 'User not found'
         });
       }
 
-      res.json({
+      res.status(200).json({
         status: true,
-        message: 'User updated successfully',
-        data: {
-          auth_id: parseInt(auth_id),
-          updated_fields: Object.keys(updateData)
-        }
+        message: 'User profile updated successfully'
       });
 
     } catch (error) {
-      res.json({
+      console.error('Server error:', error);
+      res.status(500).json({
         status: false,
-        message: 'Error updating user',
-        error: error.message
+        message: 'Internal server error'
       });
     }
   }
@@ -372,7 +391,7 @@ class AuthController {
   // Delete user
   static async delete(req, res) {
     try {
-      const { auth_id } = req.params;
+      const { auth_id } = req.query;
 
       const query = 'DELETE FROM auth_users WHERE auth_id = ?';
       const [result] = await pool.execute(query, [auth_id]);
@@ -404,7 +423,7 @@ class AuthController {
   // Find one user by ID
   static async findOne(req, res) {
     try {
-      const { auth_id } = req.params;
+      const { auth_id } = req.query;
 
       const query = 'SELECT * FROM auth_users WHERE auth_id = ?';
       const [rows] = await pool.execute(query, [auth_id]);
@@ -418,8 +437,8 @@ class AuthController {
 
       // Remove sensitive data from response
       const user = { ...rows[0] };
-      delete user.password;
-      delete user.login_token;
+      // delete user.password;
+      // delete user.login_token;
 
       res.json({
         status: true,
@@ -440,8 +459,6 @@ class AuthController {
   static async findAll(req, res) {
     try {
       const {
-        page = 1,
-        limit = 10,
         user_role,
         isActive,
         isEmailVerified
@@ -466,34 +483,7 @@ class AuthController {
         queryParams.push(isEmailVerified === 'true');
       }
 
-      // Add pagination
-      const offset = (parseInt(page) - 1) * parseInt(limit);
-      query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
-      queryParams.push(parseInt(limit), offset);
-
       const [rows] = await pool.execute(query, queryParams);
-
-      // Get total count for pagination
-      let countQuery = 'SELECT COUNT(*) as total FROM auth_users WHERE 1=1';
-      const countParams = [];
-
-      if (user_role) {
-        countQuery += ' AND user_role = ?';
-        countParams.push(user_role);
-      }
-
-      if (isActive !== undefined) {
-        countQuery += ' AND isActive = ?';
-        countParams.push(isActive === 'true');
-      }
-
-      if (isEmailVerified !== undefined) {
-        countQuery += ' AND isEmailVerified = ?';
-        countParams.push(isEmailVerified === 'true');
-      }
-
-      const [countResult] = await pool.execute(countQuery, countParams);
-      const total = countResult[0].total;
 
       // Remove sensitive data from response
       const users = rows.map(user => {
@@ -504,15 +494,7 @@ class AuthController {
       res.json({
         status: true,
         message: 'Users retrieved successfully',
-        data: {
-          users,
-          pagination: {
-            current_page: parseInt(page),
-            total_pages: Math.ceil(total / parseInt(limit)),
-            total_records: total,
-            per_page: parseInt(limit)
-          }
-        }
+        data: users
       });
 
     } catch (error) {

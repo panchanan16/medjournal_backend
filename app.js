@@ -23,6 +23,10 @@ const coreApiRoutes = require('@/routes/coreApi')
 app.use('/api/v1/core', coreApiRoutes);
 
 
+const authApiRoutes = require('@/routes/authApi')
+app.use('/api/v1/core', authApiRoutes);
+
+
 app.listen(PORT, () => {
     console.log("Server is listening to PORT 3100 🚀🚀🚀")
 })

@@ -1,0 +1,15 @@
+meta {
+  name: findOne
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{urlHeadCore}}/auth/readOne?auth_id=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  auth_id: 1
+}

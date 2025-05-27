@@ -1,0 +1,11 @@
+meta {
+  name: logout
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{urlHeadCore}}/auth/logout
+  body: none
+  auth: inherit
+}

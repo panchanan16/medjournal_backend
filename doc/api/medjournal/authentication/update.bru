@@ -1,0 +1,32 @@
+meta {
+  name: update
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{urlHeadCore}}/auth/update?auth_id=2
+  body: json
+  auth: inherit
+}
+
+params:query {
+  auth_id: 2
+}
+
+body:json {
+  {
+    "email": "john.doe@example.com",
+    "first_name": "John",
+    "last_name": "Doe",
+    "profile_img_link": "https://example.com/images/profile.jpg",
+    "designation": "Software Engineer",
+    "institution": "Tech University",
+    "achievements": "Published 3 research papers in AI.",
+    "publications": "AI Research Journal, Machine Learning Today",
+    "isEmailVerified": true,
+    "isActive": true,
+    "user_role": "user",
+    "profile_img" : ""
+  }
+}

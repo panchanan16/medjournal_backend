@@ -55,6 +55,7 @@ coreRouter.post('/manuscript/create', uploadMultipleFields([{ name: 'article_fil
 coreRouter.post('/manuscript/createByUser', uploadMultipleFields([{ name: 'article_file', maxCount: 1 }], 'manuscript'), manuscriptController.createByUser)
 coreRouter.put('/manuscript/update', uploadMultipleFields([{ name: 'article_file', maxCount: 1 }, { name: 'acceptance_letter', maxCount: 1 }, { name: 'invoice', maxCount: 1 }, { name: 'additional_file', maxCount: 1 }], 'manuscript'), manuscriptController.update)
 coreRouter.get('/manuscript/readAll', manuscriptController.findAll)
+coreRouter.get('/manuscript/readAllByUser', manuscriptController.findAllByUser)
 coreRouter.get('/manuscript/readOne', manuscriptController.findOne)
 
 
