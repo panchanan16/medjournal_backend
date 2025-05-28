@@ -5,7 +5,13 @@ meta {
 }
 
 get {
-  url: 
+  url: {{urlHeadCore}}/articleMain/readAll?isNihFunded=1
   body: none
   auth: inherit
+}
+
+params:query {
+  isNihFunded: 1
+  ~isInHome: 1
+  ~isMostRead: 1
 }

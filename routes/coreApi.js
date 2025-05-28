@@ -22,8 +22,9 @@ coreRouter.put('/editorBoard/update', uploadSingleFile('editor_img', 'editorBoar
 
 // Article main API ----
 coreRouter.post('/articleMain/create', uploadMultipleFields([{ name: 'pdfFile', maxCount: 1 }, { name: 'xmlFile', maxCount: 1 }, { name: 'coiFile', maxCount: 1 }], 'testarticle'), articleMainController.create)
-coreRouter.get('/getByVolumeId/readAll', articleMainController.getArticlesWithVolumeId)
 coreRouter.put('/articleMain/update', uploadMultipleFields([{ name: 'pdfFile', maxCount: 1 }, { name: 'xmlFile', maxCount: 1 }, { name: 'coiFile', maxCount: 1 }], 'testarticle'),  articleMainController.update)
+coreRouter.get('/getByVolumeId/readAll', articleMainController.getArticlesWithVolumeId)
+coreRouter.get('/articleMain/readAll', articleMainController.findAll)
 
 // Article full controller ----
 coreRouter.get('/articlefull/readOne/:id', articleFullController.getArticleById)

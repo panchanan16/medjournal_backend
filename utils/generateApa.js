@@ -135,60 +135,6 @@ function formatPages(pages) {
   return pages;
 }
 
-// Example usage with new author format:
-const article1 = {
-  authors: [
-    {
-      ar_author_id: 23,
-      ariticle_id: 21,
-      authors_prefix: 'Dr.',
-      authors_name: 'Mintu singh',
-      authors_middlename: 'E.',
-      authors_lastname: 'Nath',
-      author_email: 'jane.singh@example.com',
-      orchid_id: '0000-0002-1825-0097',
-      afflication: 'Department of Biology, Stanford University',
-      qualification: 'Ph.D. in Molecular Biology'
-    },
-    {
-      ar_author_id: 24,
-      ariticle_id: 21,
-      authors_prefix: 'Prof.',
-      authors_name: 'Sarah',
-      authors_middlename: 'J.',
-      authors_lastname: 'Williams',
-      author_email: 'sarah.williams@example.com',
-      orchid_id: '0000-0003-1234-5678',
-      afflication: 'Department of Chemistry, MIT',
-      qualification: 'Ph.D. in Organic Chemistry'
-    }
-  ],
-  year: 2023,
-  title: 'The effects of social media on adolescent mental health: A comprehensive review',
-  journal: 'Journal of Adolescent Psychology',
-  volume: 45,
-  issue: 3,
-  pages: '123-145',
-  doi: '10.1037/dev0001234'
-};
 
-// Legacy format still works
-const article2 = {
-  authors: [
-    { first: 'John A.', last: 'Smith' },
-    { first: 'Jane B.', last: 'Doe' }
-  ],
-  year: 2022,
-  title: 'Climate change and its impact on marine ecosystems',
-  journal: 'Environmental Science Quarterly',
-  volume: 28,
-  pages: '67-89',
-  url: 'https://example.com/article'
-};
 
-// Generate citations
-console.log('New format citation:');
-console.log(generateAPAJournalCitation(article1));
-console.log('\n');
-console.log('Legacy format citation:');
-console.log(generateAPAJournalCitation(article2));
+

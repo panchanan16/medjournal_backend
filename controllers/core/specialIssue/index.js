@@ -32,7 +32,7 @@ exports.getSpecialIssueDetails = async (req, res) => {
 
     // Get all articles related to this issue
     const [articlesResults] = await pool.query(
-      `SELECT am.ariticle_id, am.articleType, am.title, am.abstract FROM article_main am WHERE issueNo = ?`,
+      `SELECT am.ariticle_id, am.articleType, am.title, am.abstract, am.pdflink, am.url, am.articleType FROM article_main am WHERE issueNo = ?`,
       [issueId]
     );
 

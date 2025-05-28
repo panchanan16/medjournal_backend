@@ -256,36 +256,36 @@ class ArticleController {
   static async findAll(req, res) {
     try {
       const {
-        page = 1,
-        limit = 10,
+        // page = 1,
+        // limit = 10,
         sortBy = 'ariticle_id',
         sortOrder = 'DESC',
-        articleType,
         isInHome,
-        isOpenaccess
+        isMostRead,
+        isNihFunded
       } = req.query;
 
 
       // Calculate offset for pagination
-      const offset = (parseInt(page) - 1) * parseInt(limit);
+      // const offset = (parseInt(page) - 1) * parseInt(limit);
 
       // Build WHERE clause based on provided filters
       let whereClause = '';
       const whereParams = [];
-
-      if (articleType) {
-        whereClause += 'articleType = ? ';
-        whereParams.push(articleType);
-      }
 
       if (isInHome !== undefined) {
         whereClause += whereClause ? 'AND isInHome = ? ' : 'isInHome = ? ';
         whereParams.push(isInHome);
       }
 
-      if (isOpenaccess !== undefined) {
-        whereClause += whereClause ? 'AND isOpenaccess = ? ' : 'isOpenaccess = ? ';
-        whereParams.push(isOpenaccess);
+      if (isMostRead !== undefined) {
+        whereClause += whereClause ? 'AND isMostRead = ? ' : 'isMostRead = ? ';
+        whereParams.push(isMostRead);
+      }
+
+         if (isNihFunded !== undefined) {
+        whereClause += whereClause ? 'AND isNihFunded = ? ' : 'isNihFunded = ? ';
+        whereParams.push(isNihFunded);
       }
 
       // Add WHERE to SQL if we have conditions
@@ -300,25 +300,25 @@ class ArticleController {
 
 
       const totalItems = countRows[0].total;
-      const totalPages = Math.ceil(totalItems / parseInt(limit));
+      // const totalPages = Math.ceil(totalItems / parseInt(limit));
 
-      console.log([...whereParams, parseInt(limit), offset])
+      // console.log([...whereParams, parseInt(limit), offset])
 
       // Get paginated data
       const [rows] = await pool.execute(
-        `SELECT * FROM article_main ${whereSQL} ORDER BY ${sortBy} ${sortOrder === 'DESC' ? 'DESC' : 'ASC'} LIMIT ${parseInt(limit)} OFFSET ${offset};`,
+        `SELECT am.ariticle_id, am.articleType, am.published_date, am.pdflink, am.title, am.url, am.isNihFunded, am.isMostRead, am.isInHome FROM article_main am ${whereSQL} ORDER BY ${sortBy} ${sortOrder === 'DESC' ? 'DESC' : 'ASC'}`,
         [...whereParams]
       );
 
       res.status(200).json({
         status: true,
         data: rows,
-        pagination: {
-          page: parseInt(page),
-          limit: parseInt(limit),
-          totalItems,
-          totalPages
-        }
+        // pagination: {
+        //   // page: parseInt(page),
+        //   // limit: parseInt(limit),
+        //   // totalItems,
+        //   // totalPages
+        // }
       });
     } catch (error) {
       console.error('Error finding articles:', error);

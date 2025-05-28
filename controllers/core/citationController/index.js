@@ -53,12 +53,13 @@ class CitationControllers {
 
             const vol = volrow[0].volume_name;
             const issue = volrow[0].issue_name;
+            const journal = process.env.APP_NAME
 
-            const APA = generateAPAJournalCitation({ authors: authorsRow, year, title: rows[0].title, journal: 'farmclin', volume: vol, issue: issue, pages: `${rows[0].page_from}-${rows[0].page_to}` })
-            const MLA = generateMLAJournalCitation({ authors: authorsRow, year, title: rows[0].title, journal: 'farmclin', volume: vol, issue: issue, pages: `${rows[0].page_from}-${rows[0].page_to}` })
-            const chicago = generateChicagoJournalCitation({ authors: authorsRow, year, title: rows[0].title, journal: 'farmclin', volume: vol, issue: issue, pages: `${rows[0].page_from}-${rows[0].page_to}` })
-            const Vancouver = generateVancouverJournalCitation({ authors: authorsRow, year, title: rows[0].title, journal: 'farmclin', volume: vol, issue: issue, pages: `${rows[0].page_from}-${rows[0].page_to}` })
-            const Harvard = generateHarvardJournalCitation({ authors: authorsRow, year, title: rows[0].title, journal: 'farmclin', volume: vol, issue: issue, pages: `${rows[0].page_from}-${rows[0].page_to}` })
+            const APA = generateAPAJournalCitation({ authors: authorsRow, year, title: rows[0].title, journal, volume: vol, issue: issue, pages: `${rows[0].page_from}-${rows[0].page_to}` })
+            const MLA = generateMLAJournalCitation({ authors: authorsRow, year, title: rows[0].title, journal, volume: vol, issue: issue, pages: `${rows[0].page_from}-${rows[0].page_to}` })
+            const chicago = generateChicagoJournalCitation({ authors: authorsRow, year, title: rows[0].title, journal, volume: vol, issue: issue, pages: `${rows[0].page_from}-${rows[0].page_to}` })
+            const Vancouver = generateVancouverJournalCitation({ authors: authorsRow, year, title: rows[0].title, journal, volume: vol, issue: issue, pages: `${rows[0].page_from}-${rows[0].page_to}` })
+            const Harvard = generateHarvardJournalCitation({ authors: authorsRow, year, title: rows[0].title, journal, volume: vol, issue: issue, pages: `${rows[0].page_from}-${rows[0].page_to}` })
 
             const [result] = await pool.execute(
                 `UPDATE article_main
