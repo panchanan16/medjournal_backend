@@ -154,13 +154,13 @@ class ArticleController {
   /**
    * Delete an article
    */
-  static async delete(req, res) {
+  static async remove(req, res) {
     try {
-      const { article_id } = req.query;
+      const { ariticle_id } = req.query;
 
       const [result] = await pool.execute(
         'DELETE FROM article_main WHERE ariticle_id = ?',
-        [article_id]
+        [ariticle_id]
       );
 
       if (result.affectedRows === 0) {
@@ -184,9 +184,8 @@ class ArticleController {
     }
   }
 
-  /**
+  /*
    * Find a single article by ID
-
    */
   static async findOne(req, res) {
     try {
