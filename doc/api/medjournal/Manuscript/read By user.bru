@@ -5,7 +5,11 @@ meta {
 }
 
 get {
-  url: {{urlHeadCore}}/manuscript/readAllByUser
+  url: {{urlHeadCore}}/manuscript/readAllByUser?user=4
   body: none
   auth: inherit
+}
+
+params:query {
+  user: 4
 }

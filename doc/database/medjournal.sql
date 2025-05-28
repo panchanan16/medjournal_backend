@@ -336,6 +336,30 @@ CREATE TABLE review_guideline (
 
 
 
+
+---- Auth users -------
+
+CREATE TABLE auth_users (
+    auth_id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(500) NOT NULL,
+    login_token VARCHAR(500) DEFAULT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    profile_img VARCHAR(255) DEFAULT '',
+    designation VARCHAR(200) DEFAULT NULL,
+    institution VARCHAR(300) DEFAULT NULL,
+    achievements MEDIUMTEXT DEFAULT NULL,
+    publications MEDIUMTEXT DEFAULT NULL,
+    isEmailVerified BOOLEAN DEFAULT FALSE,
+    isActive BOOLEAN DEFAULT TRUE,
+    user_role ENUM('admin', 'user') DEFAULT 'user',
+    last_login VARCHAR(300) DEFAULT NULL,
+    created_at VARCHAR(300) DEFAULT NULL
+);
+
+
+
 ---- Article Submission table ------
 
 CREATE TABLE manuscripts (
@@ -428,37 +452,12 @@ CREATE TABLE testimonials (
 
 
 
----- Auth users -------
-
-CREATE TABLE auth_users (
-    auth_id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(500) NOT NULL,
-    login_token VARCHAR(500) DEFAULT NULL,
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    profile_img VARCHAR(255) DEFAULT '',
-    designation VARCHAR(200) DEFAULT NULL,
-    institution VARCHAR(300) DEFAULT NULL,
-    achievements MEDIUMTEXT DEFAULT NULL,
-    publications MEDIUMTEXT DEFAULT NULL,
-    isEmailVerified BOOLEAN DEFAULT FALSE,
-    isActive BOOLEAN DEFAULT TRUE,
-    user_role ENUM('admin', 'user') DEFAULT 'user',
-    last_login VARCHAR(300) DEFAULT NULL,
-    created_at VARCHAR(300) DEFAULT NULL
-);
-
-
 
 
 
 ALTER TABLE article_main ADD COLUMN isMostRead BOOLEAN DEFAULT 0 AFTER isInPress; -- updated in server on 25 may
-
 ALTER TABLE article_main ADD COLUMN isNihFunded BOOLEAN DEFAULT 0 AFTER isMostRead; -- updated in server on 25 may
-
 ALTER TABLE article_main ADD COLUMN COIformlink VARCHAR(400) DEFAULT '' AFTER xmllink; -- updated in server on 25 may at 12.01 am
-
 ALTER TABLE manuscripts ADD COLUMN manu_type VARCHAR(200) DEFAULT NULL AFTER manu_id; -- updated in server on 27may at 12.46AM
 
 

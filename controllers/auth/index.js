@@ -276,6 +276,8 @@ class AuthController {
         created_at
       } = req.body;
 
+      console.log(req.body)
+
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const profileImg = req.file || req.files && req.filePaths['profile_img'] ? req.filePaths['profile_img'][0] : profile_img_link
