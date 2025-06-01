@@ -1,4 +1,4 @@
-export function generateAPAJournalCitation(article) {
+exports.generateAPAJournalCitation = (article) => {
   // Validate required fields
   if (!article.authors || !article.year || !article.title || !article.journal) {
     throw new Error('Missing required fields: authors, year, title, and journal are required');

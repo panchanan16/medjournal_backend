@@ -1,4 +1,4 @@
-export function generateChicagoJournalCitation(article, style = 'notes') {
+ exports.generateChicagoJournalCitation = (article, style = 'notes') => {
   // Validate required fields
   if (!article.authors || !article.title || !article.journal) {
     throw new Error('Missing required fields: authors, title, and journal are required');

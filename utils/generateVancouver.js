@@ -1,4 +1,4 @@
-export function generateVancouverJournalCitation(article, referenceNumber = null) {
+exports.generateVancouverJournalCitation = (article, referenceNumber = null) => {
   // Validate required fields
   if (!article.authors || !article.title || !article.journal || !article.year) {
     throw new Error('Missing required fields: authors, title, journal, and year are required');

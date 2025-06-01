@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const pool = require('@/config/db.config');
-const SendMailUsingBravo = require('@/utils/email');
+const SendMail = require('@/utils/email');
 
 // JWT Configuration
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key';
@@ -300,10 +300,11 @@ class AuthController {
 
       const msg = isEmailVerified ? 'User created Successfully' : 'User created and verification link has been sent to Email!'
 
-      if (!isEmailVerified) {
+      if (isEmailVerified == 0) {
         const emailToken = await AuthController.generateEmailToken({ auth_id: result.insertId, email })
         const verifyUrl = `${process.env.USER_APP_URL}/auth/emailverify/${emailToken}`
-        const sendMail = await SendMailUsingBravo.SendEmail(verifyUrl, email, `${first_name} ${last_name}`)
+        console.log(verifyUrl, email)
+        const sendMail = await SendMail.SendMailUsingBravo(verifyUrl, email, `${first_name} ${last_name}`)
         console.log(sendMail)
         return res.json({
           status: true,
@@ -626,7 +627,7 @@ class AuthController {
       const userQuery = `SELECT * FROM auth_users WHERE auth_id = ?`
       const [user] = await pool.execute(userQuery, [decoded.auth_id]);
 
-      const {created_at, login_token, password, ...userData} = user[0]
+      const { created_at, login_token, password, ...userData } = user[0]
 
 
       res.json({

@@ -1,4 +1,4 @@
-export function arrangeReviewerList(reviewers) {
+exports.arrangeReviewerList = (reviewers) => {
     // Create a map to store reviewers by month
     const monthMap = new Map();
 

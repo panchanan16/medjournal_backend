@@ -1,7 +1,7 @@
-// const brevo = require('@getbrevo/brevo');
+const brevo = require('@getbrevo/brevo');
 
 
-export async function SendEmail(url, senderMail, senderName) {
+async function SendEmail(url, senderMail, senderName) {
   const emailBody = {
     "sender": {
       "name": "theinternationalmedicine",
@@ -33,13 +33,14 @@ export async function SendEmail(url, senderMail, senderName) {
 }
 
 async function SendMailUsingBravo(url, senderMail, senderName) {
+  console.log(process.env.BREVO_API_KEY)
   let apiInstance = new brevo.TransactionalEmailsApi();
   let apiKey = apiInstance.authentications['apiKey'];
   apiKey.apiKey = process.env.BREVO_API_KEY;
 
   let sendSmtpEmail = new brevo.SendSmtpEmail();
 
-  sendSmtpEmail.subject = "My {{params.subject}}";
+  sendSmtpEmail.subject = "{{params.subject}}";
   sendSmtpEmail.htmlContent = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -151,7 +152,6 @@ async function SendMailUsingBravo(url, senderMail, senderName) {
     </table>
 </body>
 </html>`;
-  sendSmtpEmail.htmlContent = `Hello this Intro mail from us`
   sendSmtpEmail.sender = { "name": "theinternationalmedicine", "email": "office@theinternationalmedicine.com" };
   sendSmtpEmail.to = [
     { "email": senderMail, "name": senderName }
@@ -169,7 +169,8 @@ async function SendMailUsingBravo(url, senderMail, senderName) {
 }
 
 
+// SendMailUsingBravo('https://theinternational/auth/emailverify/kjdhghighi', 'dekapanchanan16@gmail.com', 'Panchanan Deka')
 
-// module.exports = SendMailUsingBravo
+module.exports = {SendMailUsingBravo, SendEmail}
 
 
