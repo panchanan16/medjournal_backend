@@ -1,4 +1,4 @@
-const brevo = require('@getbrevo/brevo');
+// const brevo = require('@getbrevo/brevo');
 
 
 export async function SendEmail(url, senderMail, senderName) {
@@ -170,6 +170,6 @@ async function SendMailUsingBravo(url, senderMail, senderName) {
 
 
 
-module.exports = SendMailUsingBravo
+// module.exports = SendMailUsingBravo
 
 
