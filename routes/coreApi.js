@@ -15,6 +15,7 @@ const corevolumeControllers = require('@/controllers/core/volumeController')
 const citationControllers = require('@/controllers/core/citationController')
 const blogControllers = require('@/controllers/core/blogControllers')
 const testimonialControllers = require('@/controllers/core/testimonialController')
+const paymentControllers = require('@/controllers/core/stripe')
 
 // Editor Board API ----
 coreRouter.post('/editorBoard/create', uploadSingleFile('editor_img', 'editorBoard'), editorBoardController.create)
@@ -96,6 +97,13 @@ coreRouter.put('/testimonial/update', uploadMultipleFields([{ name: 'user_img', 
 coreRouter.get('/testimonial/readAll', testimonialControllers.findAll)
 coreRouter.get('/testimonial/readOne', testimonialControllers.findOne)
 coreRouter.delete('/testimonial/remove', testimonialControllers.delete)
+
+
+
+
+
+// Payments api for stripe ----------
+coreRouter.post('/stripe/payment/create', paymentControllers.createStripePayment)
 
 
 

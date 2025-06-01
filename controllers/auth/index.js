@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const pool = require('@/config/db.config')
+const pool = require('@/config/db.config');
+const SendMailUsingBravo = require('@/utils/email');
 
 // JWT Configuration
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key';
@@ -276,8 +277,6 @@ class AuthController {
         created_at
       } = req.body;
 
-      console.log(req.body)
-
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const profileImg = req.file || req.files && req.filePaths['profile_img'] ? req.filePaths['profile_img'][0] : profile_img_link
@@ -299,15 +298,34 @@ class AuthController {
 
       const [result] = await pool.execute(query, values);
 
-      res.json({
+      const msg = isEmailVerified ? 'User created Successfully' : 'User created and verification link has been sent to Email!'
+
+      if (!isEmailVerified) {
+        const emailToken = await AuthController.generateEmailToken({ auth_id: result.insertId, email })
+        const verifyUrl = `${process.env.USER_APP_URL}/auth/emailverify/${emailToken}`
+        const sendMail = await SendMailUsingBravo(verifyUrl)
+        return res.json({
+          status: true,
+          message: msg,
+          data: {
+            emailToken: emailToken,
+            auth_id: result.insertId,
+            email,
+            first_name,
+            last_name
+          }
+        });
+      }
+
+
+      return res.json({
         status: true,
-        message: 'User created successfully',
+        message: msg,
         data: {
           auth_id: result.insertId,
           email,
           first_name,
-          last_name,
-          hashedPassword
+          last_name
         }
       });
 
@@ -575,6 +593,67 @@ class AuthController {
         error: error.message
       });
     }
+  }
+
+
+  // Verify with Email----
+  static async verifyUserByEmail(req, res) {
+    const JWT_MAIL_SECRET = process.env.JWT_EMAIL_TOKEN || 'EMAIL-token'
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.json({
+        status: false,
+        message: 'Access token is required'
+      });
+    }
+
+    const token = authHeader.substring(7);
+    // Verify JWT token
+    try {
+      const decoded = jwt.verify(token, JWT_MAIL_SECRET);
+      const query = 'UPDATE auth_users SET isEmailVerified = ? WHERE auth_id = ?';
+      const [result] = await pool.execute(query, [1, decoded.auth_id]);
+
+      if (result.affectedRows === 0) {
+        return res.json({
+          status: false,
+          message: 'User not found'
+        });
+      }
+
+      const userQuery = `SELECT * FROM auth_users WHERE auth_id = ?`
+      const [user] = await pool.execute(userQuery, [decoded.auth_id]);
+
+      const {created_at, login_token, password, ...userData} = user[0]
+
+
+      res.json({
+        status: true,
+        message: `User Verified successfully`,
+        data: {
+          user: userData,
+          verified: true
+        }
+      });
+    } catch (error) {
+      return res.json({
+        status: false,
+        message: error.message,
+        data: {
+          verified: false
+        }
+      })
+    }
+
+  }
+
+
+  // Generate Email verification token ------
+  static async generateEmailToken(payload) {
+    const JWT_MAIL_SECRET = process.env.JWT_EMAIL_TOKEN || 'EMAIL-token'
+    const token = jwt.sign(payload, JWT_MAIL_SECRET, { expiresIn: '21h' });
+    return token
   }
 }
 

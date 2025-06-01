@@ -1,0 +1,19 @@
+meta {
+  name: email verify
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{urlHeadCore}}/auth/verifyemail
+  body: none
+  auth: bearer
+}
+
+headers {
+  : 
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoX2lkIjoxLCJlbWFpbCI6ImRla2FAZ21haWwuY29tIiwiaWF0IjoxNzQ4Njc1MjAxLCJleHAiOjE3NDg2Nzg4MDF9.SMjUf_uSyFQkx-p7UWNjQznswfZPZ5DVXdwocKU1fMw
+}

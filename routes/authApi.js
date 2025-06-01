@@ -13,6 +13,7 @@ authRouter.get('/auth/readAll', authController.findAll)
 authRouter.put('/auth/update',  uploadMultipleFields([{name: 'profile_img', maxCount: 1}], 'profile'), authController.update)
 authRouter.delete('/auth/remove', authController.delete)
 authRouter.delete('/auth/logout', authController.logout)
+authRouter.get('/auth/verifyemail', authController.verifyUserByEmail)
 
 
 
