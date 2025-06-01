@@ -1,20 +1,20 @@
 const brevo = require('@getbrevo/brevo');
 
 
-async function SendEmail(params) {
+export async function SendEmail(url, senderMail, senderName) {
   const emailBody = {
     "sender": {
-      "name": "Sender Alex",
+      "name": "theinternationalmedicine",
       "email": "office@theinternationalmedicine.com"
     },
     "to": [
       {
-        "email": "p.deka.1625@gmail.com",
-        "name": "John Doe"
+        "email": senderMail,
+        "name": senderName
       }
     ],
-    "subject": "Hello world",
-    "htmlContent": "<html><head></head><body><p>Hello,</p>This is my first transactional email sent from Brevo.</p></body></html>"
+    "subject": "Email Verification",
+    "htmlContent": `<html><head></head><body><p>Hello,</p>This is my first verify email sent from us.</p> <a href=${url} style="color: #667eea; text-decoration: none; word-break: break-all;">${url}</a></body></html>`
   }
 
   const sendMail = await fetch('https://api.brevo.com/v3/smtp/email', {
@@ -29,9 +29,10 @@ async function SendEmail(params) {
 
   const response = await sendMail.json()
   console.log(response)
+  return response;
 }
 
-async function SendMailUsingBravo(url) {
+async function SendMailUsingBravo(url, senderMail, senderName) {
   let apiInstance = new brevo.TransactionalEmailsApi();
   let apiKey = apiInstance.authentications['apiKey'];
   apiKey.apiKey = process.env.BREVO_API_KEY;
@@ -153,7 +154,7 @@ async function SendMailUsingBravo(url) {
   sendSmtpEmail.htmlContent = `Hello this Intro mail from us`
   sendSmtpEmail.sender = { "name": "theinternationalmedicine", "email": "office@theinternationalmedicine.com" };
   sendSmtpEmail.to = [
-    { "email": "p.deka.1625@gmail.com", "name": "Panchanan Deka" }
+    { "email": senderMail, "name": senderName }
   ];
   sendSmtpEmail.replyTo = { "email": "office@theinternationalmedicine.com", "name": "theinternationalmedicine" };
   sendSmtpEmail.headers = { "Some-Custom-Name": "unique-id-1234" };

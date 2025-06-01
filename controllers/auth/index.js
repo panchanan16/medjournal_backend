@@ -303,7 +303,8 @@ class AuthController {
       if (!isEmailVerified) {
         const emailToken = await AuthController.generateEmailToken({ auth_id: result.insertId, email })
         const verifyUrl = `${process.env.USER_APP_URL}/auth/emailverify/${emailToken}`
-        const sendMail = await SendMailUsingBravo(verifyUrl)
+        const sendMail = await SendMailUsingBravo.SendEmail(verifyUrl, email, `${first_name} ${last_name}`)
+        console.log(sendMail)
         return res.json({
           status: true,
           message: msg,
