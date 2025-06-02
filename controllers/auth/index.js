@@ -96,34 +96,36 @@ class AuthController {
         });
       }
 
-      const token = authHeader.substring(7); // Remove 'Bearer ' prefix
-
+      const token = authHeader.substring(7);
       // Verify JWT token
       const decoded = jwt.verify(token, JWT_SECRET);
 
 
-      const query = 'SELECT auth_id, email, user_role, isActive FROM auth_users WHERE auth_id = ? AND login_token = ? AND isActive = true';
+      const query = 'SELECT * FROM auth_users WHERE auth_id = ? AND login_token = ? AND isActive = true';
       const [rows] = await pool.execute(query, [decoded.auth_id, token]);
 
       if (rows.length === 0) {
         return res.json({
           status: false,
-          message: 'Invalid or expired token'
+          message: 'Invalid or expired token',
+          data: null
         });
       }
 
-      // Add user info to request object
       req.user = decoded;
       req.token = token;
 
-      if (next) next(); // Call next middleware if provided
-      else {
+     const {password, login_token, publications, created_at, achievements, ...existuser} = rows[0]
+
+      // if (next) {
+      //   next();
+      // } else {
         res.json({
           status: true,
           message: 'Token is valid',
-          data: { user: decoded }
+          data: existuser
         });
-      }
+      // }
     } catch (error) {
       res.json({
         status: false,
@@ -303,9 +305,8 @@ class AuthController {
       if (isEmailVerified == 0) {
         const emailToken = await AuthController.generateEmailToken({ auth_id: result.insertId, email })
         const verifyUrl = `${process.env.USER_APP_URL}/auth/emailverify/${emailToken}`
-        console.log(verifyUrl, email)
         const sendMail = await SendMail.SendMailUsingBravo(verifyUrl, email, `${first_name} ${last_name}`)
-        console.log(sendMail)
+    
         return res.json({
           status: true,
           message: msg,

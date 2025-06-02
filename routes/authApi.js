@@ -15,6 +15,7 @@ authRouter.put('/auth/update', uploadMultipleFields([{ name: 'profile_img', maxC
 authRouter.delete('/auth/remove', authController.delete)
 authRouter.delete('/auth/logout', authController.logout)
 authRouter.get('/auth/verifyemail', authController.verifyUserByEmail)
+authRouter.get('/auth/verifyToken', authController.verifyToken)
 
 
 

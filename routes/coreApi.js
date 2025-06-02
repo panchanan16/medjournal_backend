@@ -104,6 +104,8 @@ coreRouter.delete('/testimonial/remove', testimonialControllers.delete)
 
 // Payments api for stripe ----------
 coreRouter.post('/stripe/payment/create', paymentControllers.createStripePayment)
+coreRouter.post('/razorpay/payment/create', paymentControllers.createRazorpayPayments)
+coreRouter.post('/razorpay/payment/verify', paymentControllers.razorPaymentVerify)
 
 
 
