@@ -90,10 +90,10 @@ class SpecialIssueController {
     // Get a single special issue by ID
     static async findOne(req, res) {
         try {
-            const { id } = req.query;
+            const { issueId } = req.query;
             const [rows] = await pool.execute(
-                'SELECT * FROM special_issues WHERE sp_issue_id = ?',
-                [id]
+                'SELECT * FROM special_issues WHERE issueId = ?',
+                [issueId]
             );
 
             if (rows.length === 0) {
@@ -119,10 +119,11 @@ class SpecialIssueController {
         }
     }
 
-    // Update a special issue by ID
+    // Update a special issue by sp_issue_id
     static async update(req, res) {
         try {
             const { sp_issue_id } = req.query;
+            console.log(req.body)
             const {
                 issueId,
                 isSpecial,

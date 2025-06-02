@@ -77,7 +77,8 @@ class IssueControllers {
     // Update an issue
     static async update(req, res) {
         try {
-            const { id, volume_id, issue_name } = req.body;
+            const { is_id } = req.query
+            const { volume_id, issue_name } = req.body;
 
             if (!volume_id || !issue_name) {
                 return res.status(400).json({
@@ -89,7 +90,7 @@ class IssueControllers {
             // Check if the issue exists
             const [issueCheck] = await pool.execute(
                 'SELECT * FROM vol_issue WHERE is_id = ?',
-                [id]
+                [is_id]
             );
 
             if (issueCheck.length === 0) {
@@ -114,14 +115,14 @@ class IssueControllers {
 
             const [result] = await pool.execute(
                 'UPDATE vol_issue SET volume_id = ?, issue_name = ? WHERE is_id = ?',
-                [volume_id, issue_name, id]
+                [volume_id, issue_name, is_id]
             );
 
             return res.status(200).json({
                 status: true,
                 message: 'Issue updated successfully',
                 data: {
-                    is_id: parseInt(id),
+                    is_id: parseInt(is_id),
                     volume_id,
                     issue_name
                 }
@@ -212,6 +213,7 @@ class IssueControllers {
             });
         }
     }
+
 }
 
 module.exports = IssueControllers;

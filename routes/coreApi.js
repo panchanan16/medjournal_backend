@@ -16,6 +16,7 @@ const citationControllers = require('@/controllers/core/citationController')
 const blogControllers = require('@/controllers/core/blogControllers')
 const testimonialControllers = require('@/controllers/core/testimonialController')
 const paymentControllers = require('@/controllers/core/stripe')
+const issueController = require('@/controllers/core/issueController')
 
 // Editor Board API ----
 coreRouter.post('/editorBoard/create', uploadSingleFile('editor_img', 'editorBoard'), editorBoardController.create)
@@ -75,6 +76,10 @@ coreRouter.delete('/slider/remove', sliderControllers.delete)
 // Volume Controllers --------
 coreRouter.post('/volume/create', uploadMultipleFields([{ name: 'volume_img', maxCount: 1 }], 'volume'), corevolumeControllers.create)
 coreRouter.put('/volume/update', uploadMultipleFields([{ name: 'volume_img', maxCount: 1 }], 'volume'), corevolumeControllers.update)
+
+
+// Issue Controllers --------
+coreRouter.get('/issue/readOne', issueController.findById)
 
 
 
