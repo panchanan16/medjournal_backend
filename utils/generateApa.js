@@ -17,10 +17,10 @@ exports.generateAPAJournalCitation = (article) => {
   citation += ` ${formatTitle(article.title)}.`;
 
   // Add journal name (italicized) and volume
-  citation += ` *${article.journal}*`;
+  citation += ` <i>${article.journal}</i>`;
   
   if (article.volume) {
-    citation += `, *${article.volume}*`;
+    citation += `, <i>${article.volume}</i>`;
   }
 
   // Add issue number in parentheses (not italicized)

@@ -24,7 +24,7 @@ function generateChicagoNotes(article) {
   citation += `, "${formatChicagoTitle(article.title)}"`;
 
   // Add journal name (italicized)
-  citation += `, *${article.journal}*`;
+  citation += `, <i>${article.journal}</i>`;
 
   // Add volume and issue
   if (article.volume) {

@@ -6,7 +6,7 @@ class PaymentControllers {
     static async createStripePayment(req, res) {
         try {
             const payment = await stripe.paymentIntents.create({
-                amount: req.body.amount,
+                amount: parseInt(req.body.amount) * 100,
                 currency: 'usd',
                 receipt_email: req.body.email,
                 automatic_payment_methods: { enabled: true }

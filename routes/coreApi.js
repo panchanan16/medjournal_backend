@@ -31,6 +31,7 @@ coreRouter.get('/articleMain/readAll', articleMainController.findAll)
 // Article full controller ----
 coreRouter.get('/articlefull/readOne/:id', articleFullController.getArticleById)
 coreRouter.get('/articlefull/increase', articleFullController.getIncreaseArticleViewAndDownloads)
+coreRouter.get('/articlefull/summary', articleFullController.getSummary)
 
 // Article Section GET api
 coreRouter.get('/articleSection/readOne', articleFullController.getArticleSectionById)

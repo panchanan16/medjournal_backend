@@ -17,11 +17,11 @@ exports.generateHarvardJournalCitation = (article) => {
   citation += ` '${formatHarvardTitle(article.title)}'`;
 
   // Add journal name (italicized)
-  citation += `, *${article.journal}*`;
+  citation += `, <i>${article.journal}</i>`;
 
   // Add volume in italics
   if (article.volume) {
-    citation += `, vol. *${article.volume}*`;
+    citation += `, vol. <i>${article.volume}</i>`;
   }
 
   // Add issue number (not italicized)

@@ -25,6 +25,9 @@ exports.getArticleById = async (req, res) => {
         am.COIformlink,
         am.DOIlink,
         am.published_date,
+        am.recieve_date,
+        am.Accepted_date,
+        am.articleType,
         aa.authors_prefix,
         aa.authors_name,
         aa.authors_middlename,
@@ -65,6 +68,9 @@ exports.getArticleById = async (req, res) => {
       keywords: rows[0].keywords,
       DOIlink: rows[0].DOIlink,
       published: rows[0].published_date,
+      recieved: rows[0].recieve_date,
+      accepted: rows[0].Accepted_date,
+      type: rows[0].articleType,
       authors: [],
       sections: [],
       metrics: {
@@ -113,7 +119,7 @@ exports.getArticleById = async (req, res) => {
     return res.status(200).json({
       status: true,
       data: articleData,
-      rows
+      // rows
     });
   } catch (error) {
     console.error('Error fetching article data:', error);
@@ -218,6 +224,33 @@ exports.getIncreaseArticleViewAndDownloads = async (req, res) => {
     res.status(200).json({ status: true, message: `${column} updated successfully.` });
   } catch (err) {
     console.error('Error updating article:', err);
-    res.status(500).json({status: false, message: "Server error to update views!" });
+    res.status(500).json({ status: false, message: "Server error to update views!" });
+  }
+}
+
+exports.getSummary = async (req, res) => {
+  const query = `SELECT 
+    COUNT(*) AS total_items,
+    COUNT(CASE WHEN status = 'Pending' THEN 1 END) AS total_pending,
+    COUNT(CASE WHEN status = 'In Progress' THEN 1 END) AS total_progress,
+    COUNT(CASE WHEN status = 'Accepted' THEN 1 END) AS total_accepted,
+    COUNT(CASE WHEN status = 'Rejected' THEN 1 END) AS total_rejected
+FROM manuscripts;`;
+
+  try {
+    const [submission] = await pool.execute(query);
+
+    const [published] = await pool.execute(`SELECT
+    COUNT(*) AS total_published 
+FROM article_main;`);
+
+    if (!submission || !published) {
+      return res.status(404).json({ message: "Not found" });
+    }
+
+    res.status(200).json({ status: true, data: { submission: submission[0], published: published[0] } });
+  } catch (err) {
+    console.error('Error updating article:', err);
+    res.status(500).json({ status: false, message: "Server error to update views!" });
   }
 }

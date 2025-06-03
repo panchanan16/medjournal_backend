@@ -20,14 +20,14 @@ class ArticleAuthorController {
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                         [
                             author.ariticle_id,
-                            author.authors_prefix || null,
+                            author.authors_prefix || "",
                             author.authors_name,
-                            author.authors_middlename || null,
-                            author.authors_lastname || null,
-                            author.author_email || null,
-                            author.orchid_id || null,
-                            author.afflication || null,
-                            author.qualification || null
+                            author.authors_middlename || "",
+                            author.authors_lastname || "",
+                            author.author_email || "",
+                            author.orchid_id || "",
+                            author.afflication || "",
+                            author.qualification || ""
                         ]
                     );
 
@@ -121,14 +121,14 @@ class ArticleAuthorController {
                author_email = ?, orchid_id = ?, afflication = ?, qualification = ?
            WHERE ar_author_id = ?`,
                         [
-                            author.authors_prefix || null,
+                            author.authors_prefix || "",
                             author.authors_name,
-                            author.authors_middlename || null,
-                            author.authors_lastname || null,
-                            author.author_email || null,
-                            author.orchid_id || null,
-                            author.afflication || null,
-                            author.qualification || null,
+                            author.authors_middlename || "",
+                            author.authors_lastname || "",
+                            author.author_email || "",
+                            author.orchid_id || "",
+                            author.afflication || "",
+                            author.qualification || "",
                             author.ar_author_id
                         ]
                     );
@@ -145,14 +145,14 @@ class ArticleAuthorController {
           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                         [
                             ariticleId,
-                            author.authors_prefix || null,
+                            author.authors_prefix || "",
                             author.authors_name,
-                            author.authors_middlename || null,
-                            author.authors_lastname || null,
-                            author.author_email || null,
-                            author.orchid_id || null,
-                            author.afflication || null,
-                            author.qualification || null
+                            author.authors_middlename || "",
+                            author.authors_lastname || "",
+                            author.author_email || "",
+                            author.orchid_id || "",
+                            author.afflication || "",
+                            author.qualification || ""
                         ]
                     );
                 }
