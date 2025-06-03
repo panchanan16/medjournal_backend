@@ -17,6 +17,7 @@ const blogControllers = require('@/controllers/core/blogControllers')
 const testimonialControllers = require('@/controllers/core/testimonialController')
 const paymentControllers = require('@/controllers/core/stripe')
 const issueController = require('@/controllers/core/issueController')
+const fileController = require('@/controllers/core/fileController')
 
 // Editor Board API ----
 coreRouter.post('/editorBoard/create', uploadSingleFile('editor_img', 'editorBoard'), editorBoardController.create)
@@ -105,13 +106,15 @@ coreRouter.get('/testimonial/readOne', testimonialControllers.findOne)
 coreRouter.delete('/testimonial/remove', testimonialControllers.delete)
 
 
-
-
-
 // Payments api for stripe ----------
 coreRouter.post('/stripe/payment/create', paymentControllers.createStripePayment)
 coreRouter.post('/razorpay/payment/create', paymentControllers.createRazorpayPayments)
 coreRouter.post('/razorpay/payment/verify', paymentControllers.razorPaymentVerify)
+
+
+// File upload routes for TextEditor -----
+coreRouter.post('/texteditor/fileupload', uploadMultipleFields([{ name: 'otherfile', maxCount: 1 }], 'otherfiles'), fileController.uploadFileFromTextEditor)
+
 
 
 
