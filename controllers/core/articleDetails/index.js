@@ -16,6 +16,7 @@ exports.getArticleById = async (req, res) => {
       SELECT 
         am.ariticle_id as id,
         am.title,
+        am.url,
         am.abstract,
         am.keywords,
         am.Downloads,
@@ -61,6 +62,7 @@ exports.getArticleById = async (req, res) => {
     const articleData = {
       id: rows[0].id.toString(),
       title: rows[0].title,
+      url: rows[0].url,
       abstract: rows[0].abstract,
       pdflink: rows[0].pdflink,
       xmllink: rows[0].xmllink,
