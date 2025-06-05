@@ -29,6 +29,8 @@ exports.getArticleById = async (req, res) => {
         am.recieve_date,
         am.Accepted_date,
         am.articleType,
+        am.page_from,
+        am.page_to,
         aa.authors_prefix,
         aa.authors_name,
         aa.authors_middlename,
@@ -73,6 +75,8 @@ exports.getArticleById = async (req, res) => {
       recieved: rows[0].recieve_date,
       accepted: rows[0].Accepted_date,
       type: rows[0].articleType,
+      pageFrom: rows[0].page_from,
+      pageTo: rows[0].page_to,
       authors: [],
       sections: [],
       metrics: {

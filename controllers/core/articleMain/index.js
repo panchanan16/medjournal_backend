@@ -340,7 +340,7 @@ class ArticleController {
     }
     const placeholders = vols.map(() => '?').join(',');
     const params = vols.map((el) => el.is_id)
-    const query = `SELECT am.articleType, am.issueNo, am.title, am.url, am.pdflink, am.published_date, am.ariticle_id, vi.issue_name FROM article_main am INNER JOIN vol_issue vi ON am.issueNo = vi.is_id WHERE issueNo IN (${placeholders})`;
+    const query = `SELECT am.articleType, am.issueNo, am.title, am.url, am.page_from, am.page_to, am.pdflink, am.published_date, am.ariticle_id, vi.issue_name FROM article_main am INNER JOIN vol_issue vi ON am.issueNo = vi.is_id WHERE issueNo IN (${placeholders})`;
     const [articles] = await pool.execute(
       query, params)
     return res.status(200).json({ status: true, data: { vols, articles } })
