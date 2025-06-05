@@ -167,6 +167,7 @@ CREATE TABLE article_main (
     Views INT,
     pdflink TEXT,
     xmllink TEXT,
+    COIformlink VARCHAR(400) DEFAULT '',
     citation_apa TEXT,
     citation_mla TEXT,
     citation_chicago TEXT,

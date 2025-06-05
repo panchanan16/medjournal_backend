@@ -85,7 +85,7 @@ exports.getArticleById = async (req, res) => {
     const processedAuthorEmails = new Set();
 
     rows.forEach((row, index) => {
-      if (row.authors_name && !processedAuthorEmails.has(row.author_email)) {
+      if (row.authors_name && !processedAuthorEmails.has(row.authors_name)) {
         // Construct full name with any available components
         let fullName = row.authors_name;
         if (row.authors_middlename) fullName += ' ' + row.authors_middlename;
@@ -98,8 +98,8 @@ exports.getArticleById = async (req, res) => {
 
         articleData.authors.push(authorData);
 
-        if (row.author_email) {
-          processedAuthorEmails.add(row.author_email);
+        if (row.authors_name) {
+          processedAuthorEmails.add(row.authors_name);
         }
       }
     });
