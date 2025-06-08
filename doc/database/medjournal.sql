@@ -461,7 +461,7 @@ ALTER TABLE article_main ADD COLUMN isNihFunded BOOLEAN DEFAULT 0 AFTER isMostRe
 ALTER TABLE article_main ADD COLUMN COIformlink VARCHAR(400) DEFAULT '' AFTER xmllink; -- updated in server on 25 may at 12.01 am
 ALTER TABLE manuscripts ADD COLUMN manu_type VARCHAR(200) DEFAULT NULL AFTER manu_id; -- updated in server on 27may at 12.46AM
 
-
+ALTER TABLE article_details MODIFY article_content MEDIUMTEXT; -- updated in theinternational server at 9.21 AM
 
 
 
